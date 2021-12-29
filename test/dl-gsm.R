@@ -59,4 +59,8 @@ dplyr::bind_rows(GSE112037_1_data, GSE112037_2_data) %>%
 
 # Save image --------------------------------------------------------------
 
-save.image()
+library(SRAdb)
+sra_dbname <- file.path(system.file('extdata', package = "SRAdb"), 'SRAmetadb_demo.sqlite')
+sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
+in_acc <- GSE112037_2_data$srr[[1]]
+sraFiles <- ascpSRA( in_acc, sra_con, "ascp -QT -l 300m", fileType = 'sra', destDir=getwd() )
