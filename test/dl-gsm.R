@@ -75,10 +75,10 @@ GSE112037_meta_sra_path %>%
 
 GSE112037_meta_sra_path %>%
   dplyr::select(srr) %>%
-  dplyr::mutate(pf = "srun --exclusive --nodes 1 --ntasks 1 prefetch {srr} --output-directory /home/liuc9/scratch/aspera/parallel" %>% glue::glue()) %>%
+  dplyr::mutate(pf = "prefetch {srr} --output-directory /home/liuc9//home/liuc9/aspera/test" %>% glue::glue()) %>%
   dplyr::select(pf) %>%
   readr::write_tsv(file = "~/scratch/aspera/GSE112037_sra_parallel.sh", col_names = FALSE)
-# generalParallel GSE112037_sra_parallel.sh 6
+# generalParallelSlurm GSE112037_sra_parallel.sh
 
 # Save image --------------------------------------------------------------
 
