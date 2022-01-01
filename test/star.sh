@@ -1,0 +1,13 @@
+STAR \
+  --genomeDir $STAR_index
+  --readFilesIn $fq1 $fq2 \
+  --outFileNamePrefix $out_prefix \
+  --runThreadN $threads \
+  --outSAMunmapped Within \
+  --outSAMattributes NH HI AS NM MD XS \
+  --twopassMode Basic \
+  --alignSJDBoverhangMin 1 \
+  --alignSJoverhangMin 8 \
+  --alignEndsType EndToEnd \
+  --outSAMType BAM SortedByCoordinate \
+  --outSAMstrandField intronMotif
