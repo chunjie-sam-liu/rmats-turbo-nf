@@ -64,8 +64,7 @@ RUN apt-get update \
   && mkdir /sratoolkit \
   && tar -zxvf /sratoolkit_build/sratoolkit.tar.gz -C /sratoolkit --strip-components=1 \
   && echo 'export PATH=/sratoolkit/bin/:${PATH}' >> /etc/bash.bashrc \
-  && source /etc/bash.bashrc \
-  && vdb-config --restore-defaults
+  && /sratoolkit/bin/vdb-config --restore-defaults
 
 # Set defaults for running the image
 WORKDIR /rmats
