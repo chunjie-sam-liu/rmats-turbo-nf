@@ -1,12 +1,10 @@
-FROM debian:buster
+
+FROM ubuntu:latest
 LABEL maintainer="Chun-Jie Liu <chunjie.sam.liu@gmail.com>"
 
-RUN apt-get update && apt-get install -y \
-  apt-transport-https \
+RUN apt-get update \
+  && apt-get install -y \
   ca-certificates \
-  curl \
-  gnupg-agent \
-  software-properties-common \
   cmake \
   curl \
   cython \
@@ -20,8 +18,12 @@ RUN apt-get update && apt-get install -y \
   python-dev \
   python-numpy \
   r-base \
+  r-base-core \
+  r-base-dev \
   r-cran-nloptr \
   zlib1g-dev \
+  # fastqc \
+  # rna-star \
   && rm -rf /var/lib/apt/lists/* \
   # Use a build dir to be removed after artifacts are extracted
   && mkdir /rmats_build \
@@ -51,15 +53,21 @@ RUN apt-get update && apt-get install -y \
   && echo 'export PATH=/rmats/:${PATH}' >> /etc/bash.bashrc \
   && cp -r /rmats/* /usr/local/bin \
   # Build STAR
-  && mkdir /star_build \
-  && cd /star_build \
-  && curl -L -O https://github.com/alexdobin/STAR/archive/refs/tags/2.7.9a.tar.gz \
-  && tar -xvf 2.7.9a.tar.gz \
-  && cd STAR-2.7.9a/source \
-  && make STAR \
-  && cp STAR /usr/local/bin
+  # && mkdir /star_build \
+  # && cd /star_build \
+  # && curl -L -O https://github.com/alexdobin/STAR/archive/refs/tags/2.7.9a.tar.gz \
+  # && tar -zxvf 2.7.9a.tar.gz \
+  # && cd STAR-2.7.9a/source \
+  # && make STAR \
+  # && cp STAR /usr/local/bin \
+  && mkdir /sratoolkit_build \
+  && cd /sratoolkit_build \
+  && wget --output-document sratoolkit.tar.gz http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-ubuntu64.tar.gz \
+  && mkdir /sratoolkit \
+  && tar -zxvf /sratoolkit_build/sratoolkit.tar.gz -C /sratoolkit --strip-components=1 \
+  && echo 'export PATH=/sratoolkit/bin/:${PATH}' >> /etc/bash.bashrc
 
 # Set defaults for running the image
 WORKDIR /rmats
-ENTRYPOINT ["python", "/rmats/rmats.py"]
-CMD ["--help"]
+# ENTRYPOINT ["python", "/rmats/rmats.py"]
+# CMD ["--help"]
