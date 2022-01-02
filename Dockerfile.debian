@@ -20,6 +20,7 @@ RUN apt-get update \
   r-base \
   r-cran-nloptr \
   zlib1g-dev \
+  libxml-libxml-perl \
   # fastqc \
   # rna-star \
   && rm -rf /var/lib/apt/lists/* \
