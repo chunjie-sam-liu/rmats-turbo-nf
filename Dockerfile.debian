@@ -67,6 +67,7 @@ RUN apt-get update \
   && echo 'export PATH=/sratoolkit/bin/:${PATH}' >> /etc/bash.bashrc \
   && /sratoolkit/bin/vdb-config --restore-defaults
 
+ENV PATH /sratoolkit/bin/:/rmats/:$PATH
 # Set defaults for running the image
 WORKDIR /rmats
 CMD ["python", "/rmats/rmats.py"]
