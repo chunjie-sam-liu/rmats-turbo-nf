@@ -27,6 +27,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: chunjiesamliu/rmats-turbo:latest
+          tags: chunjiesamliu/rmats-turbo-nf:latest
 
 
