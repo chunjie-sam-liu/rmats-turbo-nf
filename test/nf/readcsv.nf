@@ -5,7 +5,7 @@
 Channel
   .fromPath(params.reads)
   .ifEmpty {exit 1, "Cant find reads file: ${params.reads}"}
-  .splitCsv()
+  .splitCsv(by:1, strip: true)
   .map(sample -> sample[0].trim())
   .set { accession_ids }
 
