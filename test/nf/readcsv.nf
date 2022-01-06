@@ -3,6 +3,7 @@ nextflow.enable.dsl=2
 
 
 process get_accession {
+  publishDir "$params.outdir/fastq", mode: 'symlink'
   tag "${sraID}"
   label "tiny_memory"
   echo false
