@@ -12,7 +12,7 @@ process get_accession {
     tuple val(sraID), val(accession)
     // file(reads) from ch_reads
   output:
-    tuple val(sraID), path("${sraID}_1.fastq.gz"), path("${sraID}_2.fastq.gz"), emit: a
+    tuple val(sraID), path("${sraID}_1.fastq.gz"), path("${sraID}_2.fastq.gz"), emit: aW
 
   script:
   """
@@ -28,13 +28,14 @@ workflow {
     .splitCsv(by:1, strip: true)
     .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
 
+  accession_ids_ch | view
   // accession_ids_ch | view
 
-  get_accession(accession_ids_ch)
+  // get_accession(accession_ids_ch)
 
   // get_accession.out.a | view
-  get_accession.out.a \
-    | view \
-    | collectFile(name: "fastq_files.txt") \
-    | view {"Filename ${it}, and content is ${it.text}"}
+  // get_accession.out.a \
+  //   | view \
+  //   | collectFile(name: "fastq_files.txt") \
+  //   | view {"Filename ${it}, and content is ${it.text}"}
 }
