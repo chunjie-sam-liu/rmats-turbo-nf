@@ -17,3 +17,4 @@ rm -rf outdir
 rm -rf my-results
 rm -rf pipeline_*
 rm -rf ${HOME}/scratch/nextflow-workspace/work
+rm -rf output

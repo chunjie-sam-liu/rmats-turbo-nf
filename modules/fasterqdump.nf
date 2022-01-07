@@ -2,7 +2,7 @@
 process FASTERQDUMP {
   publishDir params.publishDir, mode: 'symlink'
   tag "FASTERQDUMP-${acc}"
-  label "tiny_memory"
+  label "low_memory"
 
   input:
     tuple val(acc), val(sraFile)
