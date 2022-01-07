@@ -14,7 +14,7 @@ process FASTERQDUMP {
   ngcCMD = params.ngcFile ? "--ngc ${params.ngcFile}" : ""
 
   """
-  bash fasterqdump.sh ${sraFile} ${ngcCMD}
+  fasterqdump.sh ${sraFile} ${ngcCMD}
   #pigz *fastq
 
   # save .command.* logs
