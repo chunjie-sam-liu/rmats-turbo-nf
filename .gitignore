@@ -128,7 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#nextflow
 .nextflow*
 work
 results
+outdir/
 .Rproj.user
+
