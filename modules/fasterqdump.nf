@@ -1,6 +1,6 @@
 
 process FASTERQDUMP {
-  publishDir params.publishDir, mode: 'symlink'
+  publishDir "${params.publishDir}/fastq", mode: 'symlink'
   tag "FASTERQDUMP-${acc}"
   label "low_memory"
 
