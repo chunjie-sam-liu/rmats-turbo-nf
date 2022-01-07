@@ -15,7 +15,7 @@ process FASTERQDUMP {
 
   """
   fasterqdump.sh ${sraFile} ${ngcCMD}
-  #pigz *fastq
+  pigz *fastq
 
   # save .command.* logs
   ${params.saveScript}
