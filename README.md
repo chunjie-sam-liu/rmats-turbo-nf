@@ -4,5 +4,5 @@ rmats-turbo nextflow
 
 ## Pull docker image from docker hub
 ```
-singularity pull docker://chunjiesamliu/rmats-turbo:latest
+singularity pull docker://chunjiesamliu/rmats-turbo-nf:latest
 ```

@@ -1,16 +1,24 @@
 
-params.outdir="data/results"
-
 process FASTERQDUMP {
-  tag "FASTERQDUMP"
-  publishDir params.outdir
+  publishDir params.publishDir, mode: 'symlink'
+  tag "FASTERQDUMP-${acc}"
+  label "tiny_memory"
 
   input:
-    path sra
+    tuple val(acc), val(sraFile)
+  output:
+    tuple val(acc), file(outputFileName), emit: rawReads
 
   script:
+  outputFileName = params.singleEnd ? "${acc}.fastq.gz" : "${acc}_{1,2}.fastq.gz"
+  ngcCMD = params.ngcFile ? "--ngc ${params.ngcFile}" : ""
+
   """
-  fasterqdump.sh "$sra" params.outdir
+  bash fasterqdump.sh ${sraFile} ${ngcCMD}
+  #pigz *fastq
+
+  # save .command.* logs
+  ${params.saveScript}
   """
 
 }

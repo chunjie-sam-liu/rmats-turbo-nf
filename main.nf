@@ -7,8 +7,14 @@ include {FASTERQDUMP} from "./modules/fasterqdump"
 
 
 workflow {
-  sratsvfile = channle.from(params.sratsvfile)
-  FASTERQDUMP(params.)
+  reads_ch = Channel
+    .fromPath(params.reads)
+    .ifEmpty {exit 1, "Cant find reads file: ${params.reads}"}
+    .splitCsv(by:1, strip: true)
+    .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
+
+  FASTERQDUMP(reads_ch)
+  FASTERQDUMP.out.rawReads | view
 }
 
 workflow.onComplete {
