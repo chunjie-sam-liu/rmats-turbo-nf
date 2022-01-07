@@ -21,20 +21,17 @@ RUN apt-get update \
   r-cran-nloptr \
   zlib1g-dev \
   libxml-libxml-perl \
+  pigz \
   # fastqc \
   # rna-star \
   && rm -rf /var/lib/apt/lists/* \
   # Use a build dir to be removed after artifacts are extracted
   && mkdir /rmats_build \
-  # && echo "140.82.114.4 github.com" >> /etc/hosts \
   && cd /rmats_build \
   && git clone https://github.com/Xinglab/rmats-turbo.git \
   && cd rmats-turbo \
-  # The build will source setup_environment.sh which will source ~/.bashrc.
-  # Skip that by truncating setup_environment.sh
   && echo '' > setup_environment.sh \
   && ./build_rmats \
-  # Copy the build results
   && mkdir /rmats \
   && cd /rmats \
   && cp /rmats_build/rmats-turbo/rmats.py ./ \
