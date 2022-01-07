@@ -7,7 +7,7 @@
 # Number of input parameters
 
 
-nextflow run main.nf \
+nextflow run /home/liuc9/github/rmats-turbo-nf/main.nf \
   -config test.config \
   -profile base,singularity \
   -resume
