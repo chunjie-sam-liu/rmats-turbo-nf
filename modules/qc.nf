@@ -7,6 +7,9 @@ process QC {
     tuple val(name), file(reads), val(singleEnd)
     val(rawTrim)
 
+  output:
+    file("*._fastqc.{zip,html}")
+
   script:
   """
   fastqc --casava --threads ${task.cpus} $reads
