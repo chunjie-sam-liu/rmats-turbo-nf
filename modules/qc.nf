@@ -6,8 +6,6 @@ process QC {
   input:
     tuple val(name), file(reads), val(singleEnd)
     val(rawTrim)
-  output:
-    file "*_fastqc.{zip.html}", emit: qcResults
 
   script:
   """
