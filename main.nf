@@ -6,6 +6,7 @@ nextflow.enable.dsl=2
 include {FASTQ} from "./modules/fastq"
 include {TRIM} from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
+include {BAM} from "./modules/bam"
 
 workflow {
   reads_ch = Channel
