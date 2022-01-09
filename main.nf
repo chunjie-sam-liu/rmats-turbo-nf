@@ -5,6 +5,7 @@ nextflow.enable.dsl=2
 // import modules
 include {FASTQ} from "./modules/fastq"
 include {TRIM} from "./modules/trim"
+include {QC} from "./modules/qc"
 
 workflow {
   reads_ch = Channel
@@ -13,10 +14,16 @@ workflow {
     .splitCsv(by:1, strip: true)
     .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
 
+// get fastq files
   FASTQ(reads_ch)
   FASTQ.out.rawReads | view
+  // raw quality control
+  QC(FASTQ.out.rawReads, "raw")
+  // trim
   TRIM(FASTQ.out.rawReads)
   TRIM.out.trimmedReads | view
+  // trimmed quality control
+  QC(TRIM.out.trimmedReads, "trimmed")
 
 }
 

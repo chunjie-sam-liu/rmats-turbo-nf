@@ -16,9 +16,6 @@ process FASTQ {
   """
   fastq.sh ${sraFile} "${ngcCMD}"
   pigz *fastq
-
-  # save .command.* logs
-  ${params.saveScript}
   """
 
 }
