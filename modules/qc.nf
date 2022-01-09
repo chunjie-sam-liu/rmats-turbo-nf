@@ -9,7 +9,7 @@ process QC {
 
   script:
   """
-  fastqc --casava --threads ${tasks.cpus} $reads
+  fastqc --casava --threads ${task.cpus} $reads
   """
 
 }
