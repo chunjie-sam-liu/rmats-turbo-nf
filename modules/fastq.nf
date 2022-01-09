@@ -1,7 +1,7 @@
 
-process FASTERQDUMP {
+process FASTQ {
   publishDir "${params.publishDir}/fastq", mode: 'symlink'
-  tag "FASTERQDUMP-${acc}"
+  tag "FASTQ-${acc}"
   label "low_memory"
 
   input:
@@ -14,7 +14,7 @@ process FASTERQDUMP {
   ngcCMD = params.ngcFile ? "--ngc ${params.ngcFile}" : ""
 
   """
-  fasterqdump.sh ${sraFile} "${ngcCMD}"
+  fastq.sh ${sraFile} "${ngcCMD}"
   pigz *fastq
 
   # save .command.* logs
