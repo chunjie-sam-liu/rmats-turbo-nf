@@ -19,7 +19,8 @@ slidingWindow=${7}
 [[ singleEnd == "true" ]] && keepbothreads="" || keepbothreads=":2:true"
 [[ readLength == "false" ]] && readLength=`zcat fastq.gz |head -2|tail -1|wc -L`
 
-trimmomatic \
+# trimmomatic \
+java -jar /trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar \
   ${mode} \
   -threads 5 \
   -phred33 \
