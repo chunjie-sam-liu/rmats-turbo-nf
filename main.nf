@@ -3,8 +3,8 @@
 nextflow.enable.dsl=2
 
 // import modules
-include {FASTERQDUMP} from "./modules/fasterqdump"
-
+include {FASTQ} from "./modules/fastq"
+include {TRIM} from "./modules/trim"
 
 workflow {
   reads_ch = Channel
@@ -13,8 +13,11 @@ workflow {
     .splitCsv(by:1, strip: true)
     .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
 
-  FASTERQDUMP(reads_ch)
-  FASTERQDUMP.out.rawReads | view
+  FASTQ(reads_ch)
+  FASTQ.out.rawReads | view
+  TRIM(FASTQ.out.rawReads)
+  TRIM.out.trimmedReads | view
+
 }
 
 workflow.onComplete {
