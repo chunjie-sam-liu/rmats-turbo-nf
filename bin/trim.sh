@@ -17,7 +17,7 @@ slidingWindow=${7}
 [[ singleEnd == "true" ]] && out="${name}_trimmed.fastq.gz" || out="${name}_trimmed_R1.fastq.gz ${name}_unpaired_R1.fastq.gz ${name}_trimmed_R2.fastq.gz ${name}_unpaired_R2.fastq.gz"
 [[ singleEnd == "true" ]] && keepbothreads="" || keepbothreads=":2:true"
 
-trimomatic \
+trimmomatic \
   ${mode} \
   -threads 5 \
   -phred33 \
