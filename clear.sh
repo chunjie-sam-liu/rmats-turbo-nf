@@ -16,4 +16,5 @@ rm -rf dag*
 rm -rf outdir
 rm -rf my-results
 rm -rf pipeline_*
-rm -rf ${HOME}/tmp/work
+rm -rf ${HOME}/tmp/work/*
+rm -rf ${HOME}/scratch/nf-work-tmp/*
