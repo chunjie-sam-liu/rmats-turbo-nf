@@ -12,7 +12,7 @@ process BAM {
   script:
   overhang = params.overhang ? params.overhang : params.readLength - 1
   endsType = params.softClipping ? "Local" : "EndToEnd"
-  starMem = params.starMemory ? params.starMemory : task.memory
+  // starMem = params.starMemory ? params.starMemory : task.memory
   // saveUnmappedReads = params.saveUnmappedReads ? "--saveUnmappedReads Fastx" : ""
   // q = ${params.strType[$params.stranded].strType}
 
