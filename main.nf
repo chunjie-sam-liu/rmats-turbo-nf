@@ -6,8 +6,8 @@ nextflow.enable.dsl=2
 include {FASTQ} from "./modules/fastq"
 include {TRIM} from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
-include {BAM} from "./modules/bam"
-include {QUANT} from "./modules/quant"
+include {STAR} from "./modules/bam"
+include {STRINGTIE} from "./modules/quant"
 
 workflow {
   reads_ch = Channel
@@ -26,12 +26,12 @@ workflow {
   // TRIM.out.trimmedReads | view
   // trimmed quality control
   // QCT(TRIM.out.trimmedReads, "trimmed")
-  // Mapping
-  BAM(TRIM.out.trimmedReads)
-  // BAM.out.indexedBam | view
+  // STAR Mapping
+  STAR(TRIM.out.trimmedReads)
+  // STAR.out.indexedBam | view
   // Quantification
-  QUANT(BAM.out.indexedBam)
-  QUANT.out.gtf | view
+  STRINGTIE(STAR.out.indexedBam)
+  STRINGTIE.out.gtf | view
 
 }
 

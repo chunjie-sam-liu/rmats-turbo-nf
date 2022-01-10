@@ -1,4 +1,4 @@
-process QUANT {
+process STRINGTIE {
   tag "QUANT-${name}"
   label "mega_memory"
   publishDir "${publishDir}/quant", mode: "copy"
@@ -13,7 +13,6 @@ process QUANT {
   script:
   rf = params.stranded ? params.stranded == "first-strand" ? "--rf" : "--fr" : ""
   """
-  stringtie $bam -G ${params.gtf} -o ${name}.gtf $rf -a 8 -p ${task.cpus}
-  stringtie $bam -G ${params.gtf} -o ${name}_for_DGE.gtf $rf -a 8 -e -p ${task.cpus}
+  stringtie.sh ${name} ${bam} ${params.gtf} ${task.cpus} "${rf}"
   """
 }
