@@ -7,7 +7,7 @@ include { FASTQ } from "./modules/fastq"
 include { TRIM } from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
 include { STAR } from "./modules/bam"
-include { STRINGTIE; PREPDE } from "./modules/quant"
+include { STRINGTIE; PREPDE; STRINGTIEMERGE } from "./modules/quant"
 
 workflow {
   reads_ch = Channel
@@ -35,6 +35,9 @@ workflow {
   // STRINGTIE PREPDE
   PREPDE(STRINGTIE.out.dgeGtf.collect())
   // PREPDE.out.sampleLst | view
+  // STRINGTIE MERGE
+  STRINGTIEMERGE(STRINGTIE.out.gtf.collect())
+  STRINGTIEMERGE.out.mergedGtf | view
 
 
 }

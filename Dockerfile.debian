@@ -2,6 +2,8 @@
 FROM debian:buster
 LABEL maintainer="Chun-Jie Liu <chunjie.sam.liu@gmail.com>"
 
+COPY packages.R /tmp/
+
 RUN apt-get update \
   && apt-get install -y \
   ca-certificates \
@@ -22,6 +24,8 @@ RUN apt-get update \
   r-cran-nloptr \
   zlib1g-dev \
   libxml-libxml-perl \
+  libcurl4-openssl-dev \
+  libxml2-dev \
   pigz \
   fastqc \
   samtools \
@@ -93,7 +97,7 @@ RUN apt-get update \
   && ln -s /opt/gff/gffread-0.12.7.Linux_x86_64/gffread /usr/bin/gffread \
   && rm gffread-0.12.7.Linux_x86_64.tar.gz
 
-
+RUN R -rf /tmp/packages.R
 
 ENV PATH /sratoolkit/bin/:/rmats/:$PATH
 # Set defaults for running the image
