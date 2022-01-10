@@ -8,7 +8,7 @@ process BAM {
     tuple val(name), file(reads), val(singleEnd)
 
   output:
-    tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: indexBam
+    tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: indexedBam
     file "*ReadsPerGene.out.tab"
     file "*SJ.out.tab"
     file "*Unmapped*" optional true

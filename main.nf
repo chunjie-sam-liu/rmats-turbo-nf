@@ -7,6 +7,7 @@ include {FASTQ} from "./modules/fastq"
 include {TRIM} from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
 include {BAM} from "./modules/bam"
+include {QUANT} from "./modules/quant"
 
 workflow {
   reads_ch = Channel
@@ -27,8 +28,10 @@ workflow {
   // QCT(TRIM.out.trimmedReads, "trimmed")
   // Mapping
   BAM(TRIM.out.trimmedReads)
-  BAM.out.indexBam | view
-
+  // BAM.out.indexedBam | view
+  // Quantification
+  QUANT(BAM.out.indexedBam)
+  QUANT.out.gtf | view
 
 }
 
