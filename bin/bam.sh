@@ -18,6 +18,7 @@ mismatch=${10}
 endsType=${11}
 saveUnmappedReads=${12}
 
+
 STAR \
   --genomeDir ${starIndex} \
   --readFilesIn ${reads} \
