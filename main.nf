@@ -31,10 +31,10 @@ workflow {
   // STAR.out.indexedBam | view
   // Quantification
   STRINGTIE(STAR.out.indexedBam)
-  STRINGTIE.out.gtf | view
+  // STRINGTIE.out.gtf | view
   // STRINGTIE PREPDE
-  // PREPDE(STRINGTIE.out.dgeGtf)
-  // PREPDE.out.sampleLst | view
+  PREPDE(STRINGTIE.out.dgeGtf)
+  PREPDE.out.sampleLst | view
 
 }
 
