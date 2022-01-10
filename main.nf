@@ -27,7 +27,7 @@ workflow {
   // QCT(TRIM.out.trimmedReads, "trimmed")
   // Mapping
   BAM(TRIM.out.trimmedReads)
-  BAM.out.bam | view
+  BAM.out.indexBam | view
 
 
 }
