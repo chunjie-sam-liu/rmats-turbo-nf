@@ -45,9 +45,9 @@ STAR \
   --alignIntronMax 1000000 \
   ${saveUnmappedReads} \
   --quantMode GeneCounts \
-  --outWigType None \
+  --outWigType None
   # --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
-  --outSAMstrandField intronMotif
+  # --outSAMstrandField intronMotif
 
 samtools index ${name}.Aligned.sortedByCoord.out.bam
 # bamCoverage -b ${name}.Aligned.sortedByCoord.out.bam -o ${name}.bw
