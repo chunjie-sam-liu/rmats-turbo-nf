@@ -14,7 +14,7 @@ process BAM {
   endsType = params.softClipping ? "Local" : "EndToEnd"
   starMem = params.starMemory ? params.starMemory : task.memory
   saveUnmappedReads = params.saveUnmappedReads ? "--saveUnmappedReads Fastx" : ""
-  q = ${params.strType[$params.stranded].strType}
+  // q = ${params.strType[$params.stranded].strType}
 
   """
   bam.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endType} ${saveUnmappedReads}
