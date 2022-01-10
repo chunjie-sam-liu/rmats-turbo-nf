@@ -7,7 +7,7 @@ process QUANT {
   input:
     tuple val(name), file(bam), file(bamIndex)
   output:
-    tuple file("${name}.gtf"), emit: gtf
+    path "${name}.gtf", emit: gtf
     // file "${name}_for_DGE.gtf"
 
   script:
