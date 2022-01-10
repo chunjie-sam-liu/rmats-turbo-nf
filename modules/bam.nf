@@ -1,13 +1,18 @@
 process BAM {
   tag "BAM-${name}"
   label "mega_memory"
-  publishDir "${params.publishDir}/bam", mode: "symlink"
+  publishDir "${params.publishDir}/bam/bam", pattern: "*{out.bam,out.bam.bai}*", mode: "symlink"
+  publishDir "${params.publishDir}/bam/tab", pattern: "*{ReadsPerGene.out.tab,SJ.out.tab}*", mode: "copy"
 
   input:
     tuple val(name), file(reads), val(singleEnd)
 
   output:
     tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: bam
+    file "*ReadsPerGene.out.tab"
+    file "*SJ.out.tab"
+    file "*Unmapped*" optional true
+    file "${name}.bw" optional true
 
   script:
   overhang = params.overhang ? params.overhang : params.readLength - 1
