@@ -28,13 +28,13 @@ workflow {
   // QCT(TRIM.out.trimmedReads, "trimmed")
   // STAR Mapping
   STAR(TRIM.out.trimmedReads)
-  // STAR.out.indexedBam | view
+  STAR.out.indexedBam | view
   // Quantification
-  STRINGTIE(STAR.out.indexedBam)
-  // STRINGTIE.out.gtf | view
-  // STRINGTIE PREPDE
-  PREPDE(STRINGTIE.out.dgeGtf)
-  PREPDE.out.sampleLst | view
+  // STRINGTIE(STAR.out.indexedBam)
+  // // STRINGTIE.out.gtf | view
+  // // STRINGTIE PREPDE
+  // PREPDE(STRINGTIE.out.dgeGtf)
+  // PREPDE.out.sampleLst | view
 
 }
 
