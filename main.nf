@@ -7,7 +7,7 @@ include {FASTQ} from "./modules/fastq"
 include {TRIM} from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
 include {STAR} from "./modules/bam"
-include {STRINGTIE} from "./modules/quant"
+include {STRINGTIE, PREPDE} from "./modules/quant"
 
 workflow {
   reads_ch = Channel
@@ -31,7 +31,10 @@ workflow {
   // STAR.out.indexedBam | view
   // Quantification
   STRINGTIE(STAR.out.indexedBam)
-  STRINGTIE.out.gtf | view
+  // STRINGTIE.out.gtf | view
+  // STRINGTIE PREPDE
+  PREPDE(STRINGTIE.out.dgeGtf)
+  PREPDE.out | view
 
 }
 
