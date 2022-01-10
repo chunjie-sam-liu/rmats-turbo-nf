@@ -7,7 +7,7 @@ process BAM {
     tuple val(name), file(reads), val(singleEnd)
 
   // output:
-  //   tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: bam
+    tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: bam
 
   script:
   overhang = params.overhang ? params.overhang : params.readLength - 1
