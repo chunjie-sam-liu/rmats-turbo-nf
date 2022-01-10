@@ -6,7 +6,7 @@ process BAM {
   input:
     tuple val(name), file(reads), val(singleEnd)
 
-  // output:
+  output:
     tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: bam
 
   script:
