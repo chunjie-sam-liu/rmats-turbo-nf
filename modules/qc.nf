@@ -8,7 +8,7 @@ process QC {
     val(rawTrim)
 
   output:
-    file "*._fastqc.{zip,html}"
+    file "*._fastqc.html"
 
   script:
   """
