@@ -16,9 +16,8 @@ process BAM {
   saveUnmappedReads = params.saveUnmappedReads ? "--saveUnmappedReads Fastx" : ""
   q = {params.strType[params.stranded].strType}
 
-  // bam.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} ${saveUnmappedReads}
   """
-  echo $starMem
+  bam.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} ${saveUnmappedReads}
   """
 
 }
