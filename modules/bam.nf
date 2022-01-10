@@ -1,5 +1,5 @@
-process BAM {
-  tag "BAM-${name}"
+process STAR {
+  tag "STAR-${name}"
   label "mega_memory"
   publishDir "${params.publishDir}/bam/bam", pattern: "*{out.bam,out.bam.bai}*", mode: "symlink"
   publishDir "${params.publishDir}/bam/tab", pattern: "*{ReadsPerGene.out.tab,SJ.out.tab}*", mode: "copy"
@@ -22,7 +22,7 @@ process BAM {
   q = {params.strType[params.stranded].strType}
 
   """
-  bam.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} ${saveUnmappedReads}
+  star.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} ${saveUnmappedReads}
   """
 
 }
