@@ -22,7 +22,7 @@ saveUnmappedReads=${12}
 STAR \
   --genomeDir ${starIndex} \
   --readFilesIn ${reads} \
-  --readMateLengthsIn NotEqual \
+  --readMatesLengthsIn NotEqual \
   --outFileNamePrefix ${name}. \
   --runThreadN ${threads} \
   --readFilesCommand zcat \
