@@ -17,16 +17,17 @@ workflow {
 
 // get fastq files
   FASTQ(reads_ch)
-  FASTQ.out.rawReads | view
+  // FASTQ.out.rawReads | view
   // raw quality control
   // QC(FASTQ.out.rawReads, "raw")
   // trim
   TRIM(FASTQ.out.rawReads)
-  TRIM.out.trimmedReads | view
+  // TRIM.out.trimmedReads | view
   // trimmed quality control
   // QCT(TRIM.out.trimmedReads, "trimmed")
   // Mapping
   BAM(TRIM.out.trimmedReads)
+  BAM.out.bam | view
 
 
 }
