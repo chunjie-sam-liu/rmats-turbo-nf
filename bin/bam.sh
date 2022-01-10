@@ -37,7 +37,7 @@ STAR \
   --alignMatesGapMax 1000000 \
   --outSAMunmapped Within \
   --outSAMattributes NH HI AS NM MD XS \
-  --outSAMType BAM SortedByCoordinate \
+  --outSAMtype BAM SortedByCoordinate \
   --outBAMsortingThreadN ${threads} \
   --outFilterType BySJout \
   --twopassMode Basic \
