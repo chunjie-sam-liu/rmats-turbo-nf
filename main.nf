@@ -5,6 +5,9 @@ nextflow.enable.dsl=2
 // import modules
 include {FASTQ} from "./modules/fastq"
 include {TRIM} from "./modules/trim"
+include { QC; QC as QCT} from "./modules/qc"
+include {BAM} from "./modules/bam"
+include {QUANT} from "./modules/quant"
 
 workflow {
   reads_ch = Channel
@@ -13,10 +16,22 @@ workflow {
     .splitCsv(by:1, strip: true)
     .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
 
+// get fastq files
   FASTQ(reads_ch)
-  FASTQ.out.rawReads | view
+  // FASTQ.out.rawReads | view
+  // raw quality control
+  // QC(FASTQ.out.rawReads, "raw")
+  // trim
   TRIM(FASTQ.out.rawReads)
-  TRIM.out.trimmedReads | view
+  // TRIM.out.trimmedReads | view
+  // trimmed quality control
+  // QCT(TRIM.out.trimmedReads, "trimmed")
+  // Mapping
+  BAM(TRIM.out.trimmedReads)
+  // BAM.out.indexedBam | view
+  // Quantification
+  QUANT(BAM.out.indexedBam)
+  QUANT.out.gtf | view
 
 }
 

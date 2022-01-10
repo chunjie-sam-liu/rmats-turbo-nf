@@ -13,9 +13,6 @@ process TRIM {
   slidingWindow = params.slidingWindow ? "SLIDINGWINDOW:4:15" : ""
   adapter = params.adapter ? file(params.adapter) : singleEnd ? file("${baseDir}/adapters/TruSeq3-SE.fa") : file("${baseDir}/adapters/TruSeq3-PE.fa")
   """
-  trim.sh ${name} ${reads} ${singleEnd} ${params.readLength} ${adapter} ${params.minLen} ${slidingWindow}
-
-  # save .command.* logs
-  ${params.saveScript}
+  trim.sh ${name} "${reads}" ${singleEnd} ${params.readLength} ${adapter} ${params.minLen} ${slidingWindow}
   """
 }
