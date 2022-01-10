@@ -34,7 +34,8 @@ workflow {
   // STRINGTIE.out.gtf | view
   // STRINGTIE PREPDE
   PREPDE(STRINGTIE.out.dgeGtf.collect())
-  PREPDE.out.sampleLst | view
+  // PREPDE.out.sampleLst | view
+
 
 }
 

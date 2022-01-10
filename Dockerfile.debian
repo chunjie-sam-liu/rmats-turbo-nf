@@ -75,12 +75,24 @@ RUN apt-get update \
   && curl --output trimmomatic.zip -L https://github.com/usadellab/Trimmomatic/files/5854859/Trimmomatic-0.39.zip \
   && unzip trimmomatic.zip \
   && rm trimmomatic.zip \
+  # stringtie
   && mkdir /opt/stringtie/ \
   && cd /opt/stringtie \
   && curl -O -L http://ccb.jhu.edu/software/stringtie/dl/stringtie-1.3.3.Linux_x86_64.tar.gz \
   && tar -xzvf stringtie-1.3.3.Linux_x86_64.tar.gz \
   && ln -s /opt/stringtie/stringtie-1.3.3.Linux_x86_64/stringtie /usr/bin/stringtie \
-  && rm stringtie-1.3.3.Linux_x86_64.tar.gz
+  && rm stringtie-1.3.3.Linux_x86_64.tar.gz \
+  && mkdir /opt/gff \
+  && cd /opt/gff \
+  && curl -O -L https://github.com/gpertea/gffcompare/releases/download/v0.12.6/gffcompare-0.12.6.Linux_x86_64.tar.gz \
+  && tar -xzvf gffcompare-0.12.6.Linux_x86_64.tar.gz \
+  && ln -s /opt/gff/gffcompare-0.12.6.Linux_x86_64/gffcompare /usr/bin/gffcompare \
+  && rm gffcompare-0.12.6.Linux_x86_64.tar.gz \
+  && curl -O -L https://github.com/gpertea/gffread/releases/download/v0.12.7/gffread-0.12.7.Linux_x86_64.tar.gz \
+  && tar -xzvf gffread-0.12.7.Linux_x86_64.tar.gz \
+  && ln -s /opt/gff/gffread-0.12.7.Linux_x86_64/gffread /usr/bin/gffread \
+  && rm gffread-0.12.7.Linux_x86_64.tar.gz
+
 
 
 ENV PATH /sratoolkit/bin/:/rmats/:$PATH
