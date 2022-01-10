@@ -47,10 +47,14 @@ process PREPDE {
 process STRINGTIEMERGE {
   tag "STRINGTIEMERGE"
   label "mid_memory"
-  // publishDir "${params.publishDir}/quant/stringtie", mode: "copy"
+  publishDir "${params.publishDir}/quant/stringtie", mode: "copy"
 
   input:
     file("*.gtf")
+
+  output:
+    path "gffcmp.annotated.corrected.gtf", emit: mergedGtf
+    path "gffcmp.*", emit: gffcmp
 
   script:
   """
