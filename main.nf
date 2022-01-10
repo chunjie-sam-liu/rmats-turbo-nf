@@ -33,11 +33,11 @@ workflow {
   STRINGTIE(STAR.out.indexedBam)
   // STRINGTIE.out.gtf | view
   // STRINGTIE PREPDE
-  PREPDE(STRINGTIE.out.dgeGtf)
+  PREPDE(STRINGTIE.out.dgeGtf.collect())
   PREPDE.out.sampleLst | view
 
 }
 
 workflow.onComplete {
   log.info ( workflow.success ? "\nDone! Open the following report in your browser" : "Oops .. something went wrong" )
-  }
+}
