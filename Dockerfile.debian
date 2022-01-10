@@ -97,7 +97,7 @@ RUN apt-get update \
   && ln -s /opt/gff/gffread-0.12.7.Linux_x86_64/gffread /usr/bin/gffread \
   && rm gffread-0.12.7.Linux_x86_64.tar.gz
 
-RUN R -rf /tmp/packages.R
+RUN R -f /tmp/packages.R
 
 ENV PATH /sratoolkit/bin/:/rmats/:$PATH
 # Set defaults for running the image
