@@ -1,8 +1,8 @@
 process STAR {
   tag "STAR-${name}"
   label "mega_memory"
-  publishDir "${params.publishDir}/bam/bam", pattern: "*{out.bam,out.bam.bai}*", mode: "symlink"
-  publishDir "${params.publishDir}/bam/tab", pattern: "*{ReadsPerGene.out.tab,SJ.out.tab}*", mode: "copy"
+  publishDir "${params.publishDir}/bam/star/bam", pattern: "*{out.bam,out.bam.bai}*", mode: "symlink"
+  publishDir "${params.publishDir}/bam/star/tab", pattern: "*{ReadsPerGene.out.tab,SJ.out.tab}*", mode: "copy"
 
   input:
     tuple val(name), file(reads), val(singleEnd)
