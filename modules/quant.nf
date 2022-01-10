@@ -8,7 +8,7 @@ process QUANT {
     tuple val(name), file(bam), file(bamIndex)
   output:
     path "${name}.gtf", emit: gtf
-    // file "${name}_for_DGE.gtf"
+    path "${name}_for_DGE.gtf", emit: dgeGtf
 
   script:
   rf = params.stranded ? params.stranded == "first-strand" ? "--rf" : "--fr" : ""
