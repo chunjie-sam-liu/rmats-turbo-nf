@@ -3,11 +3,11 @@
 nextflow.enable.dsl=2
 
 // import modules
-include {FASTQ} from "./modules/fastq"
-include {TRIM} from "./modules/trim"
+include { FASTQ } from "./modules/fastq"
+include { TRIM } from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
-include {STAR} from "./modules/bam"
-include {STRINGTIE, PREPDE} from "./modules/quant"
+include { STAR } from "./modules/bam"
+include { STRINGTIE; PREPDE } from "./modules/quant"
 
 workflow {
   reads_ch = Channel
@@ -34,7 +34,7 @@ workflow {
   // STRINGTIE.out.gtf | view
   // STRINGTIE PREPDE
   PREPDE(STRINGTIE.out.dgeGtf)
-  PREPDE.out | view
+  PREPDE.out.sampleLst | view
 
 }
 

@@ -38,7 +38,7 @@ process PREPDE {
   paste -d ' ' samples.txt gtfs.txt > sample_lst.txt
   prepDE.py \
     -i sample_lst.txt \
-    -l $params.readlength \
+    -l ${params.readLength} \
     -g ${run_prefix}_gene_count_matrix.csv \
     -t ${run_prefix}_transcript_count_matrix.csv
   """

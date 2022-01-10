@@ -9,10 +9,8 @@ process STAR {
 
   output:
     tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: indexedBam
-    file "*ReadsPerGene.out.tab"
-    file "*SJ.out.tab"
-    file "*Unmapped*" optional true
-    file "${name}.bw" optional true
+    path "*ReadsPerGene.out.tab", emit: rpgtab
+    path "*SJ.out.tab", emit: sjtab
 
   script:
   overhang = params.overhang ? params.overhang : params.readLength - 1
