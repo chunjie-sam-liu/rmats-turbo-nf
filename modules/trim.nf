@@ -1,7 +1,7 @@
 process TRIM {
-  publishDir "${params.publishDir}/trim", mode: "symlink"
   tag "TRIM-${name}"
   label "low_memory"
+  publishDir "${params.publishDir}/trim", mode: "symlink"
 
   input:
     tuple val(name), file(reads), val(singleEnd)

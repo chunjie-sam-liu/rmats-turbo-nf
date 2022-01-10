@@ -1,8 +1,8 @@
 
 process FASTQ {
-  publishDir "${params.publishDir}/fastq", mode: 'symlink'
   tag "FASTQ-${acc}"
   label "mid_memory"
+  publishDir "${params.publishDir}/fastq", mode: 'symlink'
 
   input:
     tuple val(acc), val(sraFile)
