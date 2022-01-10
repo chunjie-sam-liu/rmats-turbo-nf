@@ -1,6 +1,6 @@
 process STRINGTIE {
   tag "STRINGTIE-${name}"
-  label "mega_memory"
+  label "high_memory"
   publishDir "${params.publishDir}/quant/stringtie", mode: "copy"
 
 
