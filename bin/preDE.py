@@ -45,10 +45,10 @@ else:
     # gtfList = False
     ## Check that opts.input directory exists
     if not os.path.isdir(opts.input):
-      parser.print_help()
-      print " "
-      print "Error: sub-directory '%s' not found!" % (opts.input)
-      sys.exit(1)
+        parser.print_help()
+        print " "
+        print "Error: sub-directory '%s' not found!" % (opts.input)
+        sys.exit(1)
 
     #####
     ## Collect all samples file paths and if empty print help message and quit
@@ -56,10 +56,10 @@ else:
     samples = [(i,glob.iglob(os.path.join(opts.input,i,"*.gtf")).next()) for i in next(os.walk(opts.input))[1] if re.search(opts.pattern,i)]
 
 if len(samples) == 0:
-  parser.print_help()
-  print " "
-  print "Error: no GTF files found under ./%s !" % (opts.input)
-  sys.exit(1)
+    parser.print_help()
+    print " "
+    print "Error: no GTF files found under ./%s !" % (opts.input)
+    sys.exit(1)
 
 RE_GENE_ID=re.compile('gene_id "([^"]+)"')
 RE_GENE_NAME=re.compile('gene_name "([^"]+)"')
@@ -77,25 +77,25 @@ samples.sort()
 ## other options: ex. exon, transcript, mRNA, 5'UTR
 #####
 def is_transcript(x):
-  return len(x)>2 and x[2]=="transcript"
+    return len(x)>2 and x[2]=="transcript"
 
 def getGeneID(s, ctg, tid):
-  r=RE_GENE_ID.search(s)
-  if r: return r.group(1)
-  r=RE_GENE_NAME.search(s)
-  if r: return ctg+'|'+r.group(1)
-  return tid
+    r=RE_GENE_ID.search(s)
+    if r: return r.group(1)
+    r=RE_GENE_NAME.search(s)
+    if r: return ctg+'|'+r.group(1)
+    return tid
 
 def getCov(s):
-  r=RE_COVERAGE.search(s)
-  if r:
-    v=float(r.group(1))
-    if v<0.0: v=0.0
-    return v
-  return 0.0
+    r=RE_COVERAGE.search(s)
+    if r:
+        v=float(r.group(1))
+        if v<0.0: v=0.0
+        return v
+    return 0.0
 
 def is_overlap(x,y): #NEEDS TO BE INTS!
-  return x[0]<=y[1] and y[0]<=x[1]
+    return x[0]<=y[1] and y[0]<=x[1]
 
 
 def t_overlap(t1, t2): #from badGenes: chromosome, strand, cluster, start, end, (e1start, e1end)...
@@ -138,11 +138,11 @@ for s in samples:
             if is_transcript(v):
                 t_id=RE_TRANSCRIPT_ID.search(v[len(v)-1]).group(1)
                 try:
-                  g_id=getGeneID(v[len(v)-1], v[0], t_id)
+                    g_id=getGeneID(v[len(v)-1], v[0], t_id)
                 except:
-                  print "Problem at line:\n:%s\n" % (v)
-                  print "i='%s', len(v)=%s" % (i, len(v));
-                  sys.exit(1)
+                    print "Problem at line:\n:%s\n" % (v)
+                    print "i='%s', len(v)=%s" % (i, len(v));
+                    sys.exit(1)
                 geneIDs.setdefault(t_id, g_id)
                 if not RE_STRING.match(g_id):
                     badGenes.append([v[0],v[6], t_id, g_id, min(int(v[3]),int(v[4])), max(int(v[3]),int(v[4]))]) #chromosome, strand, cluster/transcript id, start, end
