@@ -17,7 +17,8 @@ process BAM {
   q = ${params.strType[params.stranded].strType}
 
   """
-  bam.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endType} ${saveUnmappedReads}
+  # bam.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endType} ${saveUnmappedReads}
+  echo $overhang
   """
 
 }
