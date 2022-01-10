@@ -9,8 +9,8 @@ process STAR {
 
   output:
     tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: indexedBam
-    path "*ReadsPerGene.out.tab"
-    path "*SJ.out.tab"
+    path "*ReadsPerGene.out.tab", emit: rpgtab
+    path "*SJ.out.tab", emit: sjtab
 
   script:
   overhang = params.overhang ? params.overhang : params.readLength - 1
