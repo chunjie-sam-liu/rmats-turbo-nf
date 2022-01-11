@@ -8,6 +8,8 @@ include { TRIM } from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
 include { STAR } from "./modules/bam"
 include { STRINGTIE; PREPDE; STRINGTIEMERGE } from "./modules/quant"
+include { ASUNPAIRED } from "./modules/as"
+
 
 workflow {
   reads_ch = Channel
@@ -39,10 +41,20 @@ workflow {
   STRINGTIEMERGE(STRINGTIE.out.gtf.collect())
   // STRINGTIEMERGE.out.mergedGtf | view
   // rMATS
-  // gtfrMATS_ch = ${params.gtf}.combine(STRINGTIEMERGE.out.mergedGtf)
-  //   .flatten()
-  // gtfrMATS_ch | view
 
+  // mergedGtf_ch = Channel.fromPath(params.gtf)
+  //   .combine(STRINGTIEMERGE.out.mergedGtf)
+  //   .flatten()
+  mergedGtf = Channel.fromPath(params.gtf)
+
+  if (params.rmats_pairs) {
+    mergedGtf_ch | view
+  } else {
+    bams_ch = STAR.out.indexedBam
+      .map {name, bam, bai -> [name, bam]}
+
+    ASUNPAIRED(bams_ch, mergedGtf_ch)
+  }
 }
 
 workflow.onComplete {
