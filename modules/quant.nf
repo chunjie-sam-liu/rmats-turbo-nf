@@ -60,7 +60,7 @@ process STRINGTIEMERGE {
   """
   ls -1 *.gtf > assembly_gtf_list.txt
   stringtie --merge -G ${params.gtf} -o stringtie_merged.gtf assembly_gtf_list.txt -p $task.cpus
-  gffcompare -R -V -r ${params.gtf} stringtie_merged.gtf correct_gene_names.R
+  gffcompare -R -V -r ${params.gtf} stringtie_merged.gtf ${baseDir}/bin/correct_gene_names.R
   gffread -E gffcmp.annotated.corrected.gff -T -o gffcmp.annotated.corrected.gtf
   """
 }
