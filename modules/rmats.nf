@@ -6,9 +6,9 @@ process TURBOPREP {
     tuple val(name), file(bam)
     each file(gtf)
   output:
-    file("*.rmats"), emit: rmat
-    file("*._433734_read_outcomes_by_bam.txt"), emit: rob
-    file("${name}.txt")
+    path "*.rmats", emit: rmat
+    path "*._433734_read_outcomes_by_bam.txt", emit: rob
+    path "${name}.txt"
 
   script:
   libType = params.stranded ? params.stranded == "first-strand" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
