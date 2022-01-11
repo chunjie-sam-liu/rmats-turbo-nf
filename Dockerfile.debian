@@ -34,6 +34,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   # Use a build dir to be removed after artifacts are extracted
   && pip install deeptools==3.2.0 \
+  && pip install rmats2sashimiplot \
   && mkdir /rmats_build \
   && cd /rmats_build \
   && git clone https://github.com/Xinglab/rmats-turbo.git \
