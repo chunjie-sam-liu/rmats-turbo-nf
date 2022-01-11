@@ -37,11 +37,11 @@ workflow {
   // PREPDE.out.sampleLst | view
   // STRINGTIE MERGE
   STRINGTIEMERGE(STRINGTIE.out.gtf.collect())
-  STRINGTIEMERGE.out.mergedGtf | view
+  // STRINGTIEMERGE.out.mergedGtf | view
   // rMATS
-  gtfrMATS_ch = params.gtf.combine(STRINGTIEMERGE.out.mergedGtf)
-    .flatten()
-  gtfrMATS_ch | view
+  // gtfrMATS_ch = ${params.gtf}.combine(STRINGTIEMERGE.out.mergedGtf)
+  //   .flatten()
+  // gtfrMATS_ch | view
 
 }
 
