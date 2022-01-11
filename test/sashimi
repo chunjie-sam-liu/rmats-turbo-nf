@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# @AUTHOR: Chun-Jie Liu
+# @CONTACT: chunjie.sam.liu.at.gmail.com
+# @DATE: 2022-01-11 14:59:46
+# @DESCRIPTION:
+
+# Number of input parameters
+ramts2sashimiplot \
+  --b1 $bam1,$bam2 \
+  --b2 $bam3,$bam4 \
+  -t SE \
+  -e sashimi_events.txt \
+  --l1 pc3e_rep \
+  --l2 gs689_rep \
+  --exon_s 1 \
+  --intron_s 5 \
+  -o ./output \
+  --group-info sashimi_groupInfo.txt
