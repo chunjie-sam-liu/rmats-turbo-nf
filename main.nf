@@ -45,7 +45,7 @@ workflow {
   // mergedGtf_ch = Channel.fromPath(params.gtf)
   //   .combine(STRINGTIEMERGE.out.mergedGtf)
   //   .flatten()
-  mergedGtf = Channel.fromPath(params.gtf)
+  mergedGtf_ch = Channel.fromPath(params.gtf)
 
   if (params.rmats_pairs) {
     mergedGtf_ch | view
