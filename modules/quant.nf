@@ -47,7 +47,7 @@ process PREPDE {
 process STRINGTIEMERGE {
   tag "STRINGTIEMERGE"
   label "mid_memory"
-  publishDir "${params.publishDir}/quant/stringtie", mode: "copy"
+  publishDir "${params.publishDir}/quant/stringtiemerge", mode: "copy"
 
   input:
     file("*.gtf")
@@ -60,7 +60,8 @@ process STRINGTIEMERGE {
   """
   ls -1 *.gtf > assembly_gtf_list.txt
   stringtie --merge -G ${params.gtf} -o stringtie_merged.gtf assembly_gtf_list.txt -p $task.cpus
-  gffcompare -R -V -r ${params.gtf} stringtie_merged.gtf correct_gene_names.R
+  gffcompare -R -V -r ${params.gtf} stringtie_merged.gtf
+  correct_gene_names.R
   gffread -E gffcmp.annotated.corrected.gff -T -o gffcmp.annotated.corrected.gtf
   """
 }
