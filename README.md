@@ -1,6 +1,6 @@
 # rmats-turbo-nf
 
-rmats-turbo nextflow
+Portable rMATS-turbo nextflow pipeline for RNA-seq data.
 
 ## Pull docker image from docker hub as singularity sif files
 ```
