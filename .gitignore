@@ -134,4 +134,5 @@ work
 results
 outdir/
 .Rproj.user
-
+*.refmap
+*.tmap
