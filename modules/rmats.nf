@@ -12,7 +12,7 @@ process TURBOPREP {
     path "${name}.txt"
 
   script:
-  libType = params.stranded ? params.stranded == "first-strand" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
+  libType = params.stranded ? params.stranded == "first-stranded" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
   mode = params.singleEnd ? "single" : "paired"
   statoff = params.statoff ? "--statoff" : ""
   novelSS = params.novelSS ? "--novelSS" : ""
@@ -50,7 +50,7 @@ process TURBOPOST {
     each file(gtf)
 
   script:
-  libType = params.stranded ? params.stranded == "first-strand" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
+  libType = params.stranded ? params.stranded == "first-stranded" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
   mode = params.singleEnd ? "single" : "paired"
   statoff = params.statoff ? "--statoff" : ""
   novelSS = params.novelSS ? "--novelSS" : ""
