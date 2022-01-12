@@ -20,7 +20,7 @@ process STAR {
   saveUnmappedReads = params.saveUnmappedReads ? "--saveUnmappedReads Fastx" : ""
   // q = {params.strType[params.stranded].strType}
   """
-  star.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} ${bamSortRAM} ${saveUnmappedReads}
+  star.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} "${bamSortRAM}" ${saveUnmappedReads}
   """
 
 }
