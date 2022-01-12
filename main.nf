@@ -53,7 +53,8 @@ workflow {
     bams_ch = STAR.out.indexedBam
       .map {name, bam, bai -> [name, bam]}
 
-    ASUNPAIRED(bams_ch, mergedGtf_ch)
+    // ASUNPAIRED(bams_ch, mergedGtf_ch)
+    bams_ch | view
   }
 }
 
