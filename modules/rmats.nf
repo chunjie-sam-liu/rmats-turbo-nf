@@ -18,7 +18,23 @@ process TURBOPREP {
   allowClipping = params.softClipping ? "--allow-clipping" : ""
   """
   echo ${bam} > ${name}.txt
-
+  rmats.py \
+    --gtf ${gtf} \
+    --b1 ${name}.txt \
+    --od ./ \
+    --tmp ./ \
+    -t ${mode} \
+    --libType ${libType} \
+    --readLength ${params.readLength} \
+    --variable-read-length \
+    --anchorLength 1 \
+    --nthread ${task.cpus} \
+    --task prep \
+    --mil ${params.mil} \
+    --mel ${params.mel} \
+    ${statoff} \
+    ${novelSS} \
+    ${allowClipping}
   """
 }
 
