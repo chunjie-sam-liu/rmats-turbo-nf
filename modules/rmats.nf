@@ -1,7 +1,8 @@
 process TURBOPREP {
   tag "TURBOPREP"
   label "mid_memory"
-  publishDir "${publishDir}/as/turboprep", mode: "symlink"
+  publishDir "${params.publishDir}/as/turboprep", mode: "symlink"
+
   input:
     tuple val(name), file(bam)
     each file(gtf)
