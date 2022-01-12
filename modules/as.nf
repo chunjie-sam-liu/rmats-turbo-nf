@@ -8,7 +8,7 @@ workflow ASUNPAIRED {
 
   main:
     TURBOPREP(bams, gtfs)
-    TURBOPOST(bams.map {name, bam -> bam}.collect(), TURBOPREP.out.rmat.collect(), TURBOPREP.out.rob.collect(), gtfs)
+    // TURBOPOST(bams.map {name, bam -> bam}.collect(), TURBOPREP.out.rmat.collect(), TURBOPREP.out.rob.collect(), gtfs)
 
 
 }
