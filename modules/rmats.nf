@@ -4,7 +4,7 @@ process TURBOPREP {
   publishDir "${publishDir}/as/turboprep", mode: "symlink"
   input:
     tuple val(name), file(bam)
-    each file(gtf)
+    file(gtf)
   output:
     path "*.rmats", emit: rmat
     path "*_read_outcomes_by_bam.txt", emit: rob
@@ -18,23 +18,7 @@ process TURBOPREP {
   allowClipping = params.softClipping ? "--allow-clipping" : ""
   """
   echo ${bam} > ${name}.txt
-  rmats.py \
-    --gtf ${gtf} \
-    --b1 ${name}.txt \
-    --od ./ \
-    --tmp ./ \
-    -t ${mode} \
-    --libType ${libType} \
-    --readLength ${params.readLength} \
-    --variable-read-length \
-    --anchorLength 1 \
-    --nthread ${task.cpus} \
-    --task prep \
-    --mil ${params.mil} \
-    --mel ${params.mel} \
-    ${statoff} \
-    ${novelSS} \
-    ${allowClipping}
+
   """
 }
 
