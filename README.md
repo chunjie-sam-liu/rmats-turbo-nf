@@ -46,3 +46,6 @@ nextflow run path/to/rmats-turbo-nf/main.nf \
   -profile base,singularity \
   -resume
 ```
+
+## Tower monitor exmpale
+![](./img/tower.png)
