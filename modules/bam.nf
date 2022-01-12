@@ -15,11 +15,12 @@ process STAR {
   script:
   overhang = params.overhang ? params.overhang : params.readLength - 1
   endsType = params.softClipping ? "Local" : "EndToEnd"
-  // starMem = params.starMemory ? params.starMemory : task.memory
+  starMem = params.starMemory ? params.starMemory : task.memory
+  bamSortRAM = starMem ? "--limitBAMsortRAM ${starMem.toBytes() - 2000000000}" : ""
   saveUnmappedReads = params.saveUnmappedReads ? "--saveUnmappedReads Fastx" : ""
   // q = {params.strType[params.stranded].strType}
   """
-  star.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} ${saveUnmappedReads}
+  star.sh ${params.starIndex} "${reads}" ${name} ${task.cpus} ${params.gtf} ${overhang} ${params.sjdbOverhangMin} ${params.sjOverhangMin} ${params.filterScore} ${params.mismatch} ${endsType} "${bamSortRAM}" ${saveUnmappedReads}
   """
 
 }
