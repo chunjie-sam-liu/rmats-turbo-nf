@@ -16,7 +16,8 @@ sjOverhangMin=$8
 filterScore=$9
 mismatch=${10}
 endsType=${11}
-saveUnmappedReads=${12}
+bamSortRAM=${12}
+saveUnmappedReads=${13}
 
 
 STAR \
@@ -45,7 +46,8 @@ STAR \
   --alignIntronMax 1000000 \
   ${saveUnmappedReads} \
   --quantMode GeneCounts \
-  --outWigType None
+  --outWigType None \
+  ${bamSortRAM}
   # --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
   # --outSAMstrandField intronMotif
 
