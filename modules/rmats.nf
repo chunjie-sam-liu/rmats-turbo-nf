@@ -4,7 +4,7 @@ process TURBOPREP {
   publishDir "${publishDir}/as/turboprep", mode: "symlink"
   input:
     tuple val(name), file(bam)
-    each file(gtf)
+    file(gtf)
   output:
     path "*.rmats", emit: rmat
     path "*_read_outcomes_by_bam.txt", emit: rob
