@@ -22,12 +22,12 @@ workflow {
   FASTQ(reads_ch)
   // FASTQ.out.rawReads | view
   // raw quality control
-  // QC(FASTQ.out.rawReads, "raw")
+  QC(FASTQ.out.rawReads, "raw")
   // trim
   TRIM(FASTQ.out.rawReads)
   // TRIM.out.trimmedReads | view
   // trimmed quality control
-  // QCT(TRIM.out.trimmedReads, "trimmed")
+  QCT(TRIM.out.trimmedReads, "trimmed")
   // STAR Mapping
   STAR(TRIM.out.trimmedReads)
   // STAR.out.indexedBam | view
