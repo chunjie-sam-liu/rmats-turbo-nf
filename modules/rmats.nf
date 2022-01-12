@@ -42,12 +42,15 @@ process TURBOPREP {
 process TURBOPOST {
   tag "TURBOPOST"
   label "high_memory"
+  publishDir "${params.publishDir}/as/turbopost", mode: "copy"
 
   input:
     file(bams)
     file(rmats)
     file(robs)
     each file(gtf)
+  output:
+    path "post/*.txt"
 
   script:
   libType = params.stranded ? params.stranded == "first-stranded" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
