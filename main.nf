@@ -42,10 +42,10 @@ workflow {
   // STRINGTIEMERGE.out.mergedGtf | view
   // rMATS
 
-  // mergedGtf_ch = Channel.fromPath(params.gtf)
-  //   .combine(STRINGTIEMERGE.out.mergedGtf)
-  //   .flatten()
   mergedGtf_ch = Channel.fromPath(params.gtf)
+    .combine(STRINGTIEMERGE.out.mergedGtf)
+    .flatten()
+  // mergedGtf_ch = Channel.fromPath(params.gtf)
 
   if (params.rmats_pairs) {
     mergedGtf_ch | view
