@@ -1,4 +1,4 @@
-include { TURBOPREP } from "./rmats"
+include { TURBOPREP; TURBOPOST } from "./rmats"
 
 
 workflow ASUNPAIRED {
