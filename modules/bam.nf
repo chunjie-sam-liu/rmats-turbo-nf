@@ -1,6 +1,6 @@
 process STAR {
   tag "STAR-${name}"
-  label "high_memory"
+  label "meta_memory"
   publishDir "${params.publishDir}/bam/star/bam", pattern: "*{out.bam,out.bam.bai}", mode: "symlink"
   publishDir "${params.publishDir}/bam/star/tab", pattern: "*{ReadsPerGene.out.tab,SJ.out.tab}", mode: "copy"
 
