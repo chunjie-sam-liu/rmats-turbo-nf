@@ -51,7 +51,7 @@ STAR \
   # --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
   # --outSAMstrandField intronMotif
 
-samtools sort -@ ${threads} -m 20G -o ${name}.Aligned.sortedByCoord.out.bam ${name}.Aligned.out.bam
+samtools sort -@ ${threads} -o ${name}.Aligned.sortedByCoord.out.bam ${name}.Aligned.out.bam
 rm ${name}.Aligned.out.bam
 samtools index -@ ${threads} ${name}.Aligned.sortedByCoord.out.bam
 # bamCoverage -b ${name}.Aligned.sortedByCoord.out.bam -o ${name}.bw
