@@ -38,7 +38,7 @@ STAR \
   --alignMatesGapMax 1000000 \
   --outSAMunmapped Within \
   --outSAMattributes NH HI AS NM MD XS \
-  --outSAMtype BAM SortedByCoordinate \
+  --outSAMtype BAM Unsorted \
   --outBAMsortingThreadN ${threads} \
   --outFilterType BySJout \
   --twopassMode Basic \
@@ -51,9 +51,12 @@ STAR \
   # --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
   # --outSAMstrandField intronMotif
 
-samtools index ${name}.Aligned.sortedByCoord.out.bam
-# bamCoverage -b ${name}.Aligned.sortedByCoord.out.bam -o ${name}.bw
+samtools sort -@ ${threads} -m 20G -o ${name}.Aligned.sortedByCoord.out.bam ${name}.Aligned.out.bam
+rm ${name}.Aligned.out.bam
+samtools index -@ ${threads} ${name}.Aligned.sortedByCoord.out.bam
+bamCoverage -b ${name}.Aligned.sortedByCoord.out.bam -o ${name}.bw
 
+  # --outSAMtype BAM SortedByCoordinate \
 # samtools view -h ${name}.Aligned.sortedByCoord.out.bam \
 #   | gawk -v q=${q} -f /usr/local/bin/tagXSstrandedData.awk \
 #   | samtools view -bS - > Aligned.XS.bam \
