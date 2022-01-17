@@ -2,7 +2,7 @@ process STAR {
   tag "STAR-${name}"
   label "mega_memory"
   publishDir "${params.publishDir}/bam/star/bam", pattern: "*{out.bam,out.bam.bai}", mode: "symlink"
-  publishDir "${params.publishDir}/bam/star/tab", pattern: "*{ReadsPerGene.out.tab,SJ.out.tab,.bw}", mode: "copy"
+  publishDir "${params.publishDir}/bam/star/tab", pattern: "*{ReadsPerGene.out.tab,SJ.out.tab}", mode: "copy"
 
   input:
     tuple val(name), file(reads), val(singleEnd)
@@ -11,7 +11,6 @@ process STAR {
     tuple val(name), file("${name}.Aligned.sortedByCoord.out.bam"), file("${name}.Aligned.sortedByCoord.out.bam.bai"), emit: indexedBam
     path "*ReadsPerGene.out.tab", emit: rpgtab
     path "*SJ.out.tab", emit: sjtab
-    path "${name}.bw", emit: bw
 
   script:
   overhang = params.overhang ? params.overhang : params.readLength - 1
