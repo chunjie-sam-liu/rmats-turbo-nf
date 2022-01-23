@@ -41,7 +41,7 @@ process TURBOPREP {
 
 process TURBOPOST {
   tag "TURBOPOST"
-  label "high_memory"
+  label "tera_memory"
   publishDir "${params.publishDir}/as/turbopost", mode: "copy"
 
   input:
