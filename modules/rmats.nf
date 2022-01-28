@@ -51,6 +51,7 @@ process TURBOPOST {
     each file(gtf)
   output:
     path "post/*.txt"
+    path "b1.txt"
 
   script:
   libType = params.stranded ? params.stranded == "first-stranded" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
