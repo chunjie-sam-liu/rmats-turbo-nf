@@ -55,6 +55,7 @@ process STRINGTIEMERGE {
   output:
     path "gffcmp.annotated.corrected.gtf", emit: mergedGtf
     path "gffcmp.*", emit: gffcmp
+    path "stringtie_merged.gtf", emit: stringtieMergedGtf
 
   script:
   """
