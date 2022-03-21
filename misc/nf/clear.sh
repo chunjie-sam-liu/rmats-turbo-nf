@@ -5,7 +5,7 @@
 # @DESCRIPTION:
 
 # Number of input parameters
-cd ${HOME}/github/rmats-turbo-nf/test/nf
+cd ${HOME}/github/rmats-turbo-nf/misc/nf
 rm -rf .nextflow*
 rm -rf work/
 rm -rf results/
