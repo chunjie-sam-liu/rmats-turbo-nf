@@ -12,19 +12,27 @@ include { ASUNPAIRED } from "./modules/as"
 
 
 workflow {
-  reads_ch = Channel
-    .fromPath(params.reads)
-    .ifEmpty {exit 1, "Cant find reads file: ${params.reads}"}
-    .splitCsv(by:1, strip: true)
-    .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
+  if (params.sras) {
+    sra_ch = Channel
+      .fromPath(params.sras)
+      .ifEmpty {exit 1, "Cant find reads file: ${params.sras}"}
+      .splitCsv(by:1, strip: true)
+      .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
 
-// get fastq files
-  FASTQ(reads_ch)
-  // FASTQ.out.rawReads | view
+      // get fastq files
+    FASTQ(sra_ch)
+    fastq_ch = FASTQ.out.rawReads
+  }
+  if (params.fastqs) {
+    fastq_ch = Channel
+      .fromFilePairs(params.fastqs)
+      .map {acc, fqs -> tuple(acc, fqs, params.singleEnd)}
+  }
+
   // raw quality control
-  QC(FASTQ.out.rawReads, "raw")
+  QC(fastq_ch, "raw")
   // trim
-  TRIM(FASTQ.out.rawReads)
+  TRIM(fastq_ch)
   // TRIM.out.trimmedReads | view
   // trimmed quality control
   QCT(TRIM.out.trimmedReads, "trimmed")
