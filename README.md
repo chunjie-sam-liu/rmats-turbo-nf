@@ -13,7 +13,7 @@ singularity pull docker://chunjiesamliu/rmats-turbo-nf:latest
 # ccle test data, test-ccle.config
 params {
   projectName = "ccle_test"
-  reads = "test-ccle-10.tsv"
+  sras = "test-ccle-10.tsv"
   singleEnd = false
   readLength = 101
   ngcFile = false
