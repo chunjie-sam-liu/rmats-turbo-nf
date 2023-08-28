@@ -7,7 +7,8 @@ include { FASTQ } from "./modules/fastq"
 include { TRIM } from "./modules/trim"
 include { QC; QC as QCT} from "./modules/qc"
 include { STAR } from "./modules/bam"
-include { STRINGTIE; PREPDE; STRINGTIEMERGE } from "./modules/quant"
+// include { STRINGTIE; PREPDE; STRINGTIEMERGE } from "./modules/quant"
+include { STRINGTIE as STRINGTIE_A; STRINGTIE as STRINGTIE_N; PREPDE as PREPDE_A; PREPDE as PREPDE_N; STRINGTIEMERGE } from "./modules/quant"
 include { ASUNPAIRED } from "./modules/as"
 
 
@@ -40,13 +41,13 @@ workflow {
   STAR(TRIM.out.trimmedReads)
   // STAR.out.indexedBam | view
   // Quantification
-  STRINGTIE(STAR.out.indexedBam)
+  STRINGTIE_A(STAR.out.indexedBam, "annotated", file(params.gtf))
   // STRINGTIE.out.gtf | view
   // STRINGTIE PREPDE
-  PREPDE(STRINGTIE.out.dgeGtf.collect())
+  PREPDE_A(STRINGTIE_A.out.dgeGtf.collect(), "annotated")
   // PREPDE.out.sampleLst | view
   // STRINGTIE MERGE
-  STRINGTIEMERGE(STRINGTIE.out.gtf.collect())
+  STRINGTIEMERGE(STRINGTIE_A.out.gtf.collect())
   // STRINGTIEMERGE.out.mergedGtf | view
   // rMATS
 
