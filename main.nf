@@ -30,7 +30,35 @@ workflow {
       .map {acc, fqs -> tuple(acc, fqs, params.singleEnd)}
   }
 
-  // raw quality control
+  if (params.bams) {
+    bams_ch_raw = Channel
+      .fromPath("${params.bams}")
+      .ifEmpty {exit 1, "Cant find reads file: ${params.sras}"}
+      .splitCsv(by:1, strip: true)
+      .map{
+        val -> {
+          filename=val[0]
+          tuple(file(filename).simpleName, file(filename), file("${filename}.bai"))
+        }
+      }
+
+    mergedGtf_ch = Channel.fromPath(params.gtf)
+
+    STRINGTIE_A(bams_ch_raw "annotated", file(params.gtf))
+    PREPDE_A(STRINGTIE_A.out.dgeGtf.collect(), "annotated")
+    STRINGTIEMERGE(STRINGTIE_A.out.gtf.collect())
+
+    if (params.rmats_pairs) {
+      mergedGtf_ch | view
+    } else {
+      bams_ch = bams_ch_raw
+        .map {name, bam, bai -> [name, bam]}
+
+      ASUNPAIRED(bams_ch, mergedGtf_ch)
+    }
+
+  } else {
+    // raw quality control
   QC(fastq_ch, "raw")
   // trim
   TRIM(fastq_ch)
@@ -58,13 +86,16 @@ workflow {
 
   if (params.rmats_pairs) {
     mergedGtf_ch | view
-  } else {
-    bams_ch = STAR.out.indexedBam
-      .map {name, bam, bai -> [name, bam]}
+    } else {
+      bams_ch = STAR.out.indexedBam
+        .map {name, bam, bai -> [name, bam]}
 
-    ASUNPAIRED(bams_ch, mergedGtf_ch)
+      ASUNPAIRED(bams_ch, mergedGtf_ch)
 
+    }
   }
+
+
 }
 
 workflow.onComplete {
