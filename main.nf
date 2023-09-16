@@ -31,20 +31,20 @@ workflow {
   }
 
   if (params.bams) {
+
     bams_ch_raw = Channel
-      .fromPath("${params.bams}")
+      .fromPath(params.bams)
       .ifEmpty {exit 1, "Cant find reads file: ${params.sras}"}
       .splitCsv(by:1, strip: true)
       .map{
-        val -> {
-          filename=val[0]
-          tuple(file(filename).simpleName, file(filename), file("${filename}.bai"))
-        }
+        val -> tuple(file(val[0]).simpleName, file(val[0]), file("${val[0]}.bai"))
       }
 
     mergedGtf_ch = Channel.fromPath(params.gtf)
 
-    STRINGTIE_A(bams_ch_raw "annotated", file(params.gtf))
+    // bams_ch_raw.view()
+
+    STRINGTIE_A(bams_ch_raw, "annotated", file(params.gtf))
     PREPDE_A(STRINGTIE_A.out.dgeGtf.collect(), "annotated")
     STRINGTIEMERGE(STRINGTIE_A.out.gtf.collect())
 
