@@ -14,28 +14,30 @@ process TURBOPREP {
   script:
   libType = params.stranded ? params.stranded == "first-stranded" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
   mode = params.singleEnd ? "single" : "paired"
-  statoff = params.statoff ? "--statoff" : ""
-  novelSS = params.novelSS ? "--novelSS" : ""
-  allowClipping = params.softClipping ? "--allow-clipping" : ""
+  variable_readLength_opt = params.variableReadLength ? "--variable-read-length" : ""
+  anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
+  novelSS_opt = params.novelSS ? "--novelSS" : ""
+  mil_opt = params.novelSS ? params.mil ? "--mil ${params.mil}" : "" : ""
+  mel_opt = params.novelSS ? params.mel ? "--mel ${params.mel}" : "" : ""
+  allow_clipping_opt = params.allowClipping ? "--allow-clipping" : ""
+
   """
   echo ${bam} > ${name}.txt
   rmats.py \
-    --gtf ${gtf} \
     --b1 ${name}.txt \
+    --gtf ${gtf} \
+    -t ${mode} \
+    --readLength ${params.readLength} \
+    --nthread ${task.cpus} \
     --od ./ \
     --tmp ./ \
-    -t ${mode} \
-    --libType ${libType} \
-    --readLength ${params.readLength} \
-    --variable-read-length \
-    --anchorLength 1 \
-    --nthread ${task.cpus} \
     --task prep \
-    --mil ${params.mil} \
-    --mel ${params.mel} \
-    ${statoff} \
-    ${novelSS} \
-    ${allowClipping}
+    --libType ${libType} \
+    ${variable_readLength_opt} \
+    ${anchorLength_opt} \
+    ${novelSS_opt} \
+    ${mil_opt} ${mel_opt} \
+    ${allow_clipping_opt}
   """
 }
 
@@ -54,33 +56,35 @@ process TURBOPOST {
     path "b1.txt"
 
   script:
-  libType = params.stranded ? params.stranded == "first-stranded" ? "fr-firststrand" : "fr-secondstrand" : "fr-unstranded"
-  mode = params.singleEnd ? "single" : "paired"
-  statoff = params.statoff ? "--statoff" : ""
-  novelSS = params.novelSS ? "--novelSS" : ""
-  allowClipping = params.softClipping ? "--allow-clipping" : ""
+  anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
+  cstat_opt = params.pairedStats ? "" : "--cstat ${params.cstat}"
+  statoff_opt = params.statoff ? "--statoff" : ""
+  paired_stats_opt = params.pairedStats ? "--paired-stats" : ""
+  novelSS_opt = params.novelSS ? "--novelSS" : ""
+  mil_opt = params.novelSS ? params.mil ? "--mil ${params.mil}" : "" : ""
+  mel_opt = params.novelSS ? params.mel ? "--mel ${params.mel}" : "" : ""
+
+
   """
   mkdir prep
   mv *.rmats prep/
   mv *_read_outcomes_by_bam.txt prep/
   ls *.bam |tr '\\n' ',' | sed 's/,\$/\\n/' > b1.txt
   rmats.py \
-    --gtf ${gtf} \
     --b1 b1.txt \
+    --gtf ${gtf} \
+    --readLength ${params.readLength} \
+    --nthread ${task.cpus} \
     --od ./post \
     --tmp ./prep \
-    -t ${mode} \
-    --libType ${libType} \
-    --readLength ${params.readLength} \
-    --variable-read-length \
-    --anchorLength 1 \
-    --nthread ${task.cpus} \
     --task post \
-    --mil ${params.mil} \
-    --mel ${params.mel} \
-    ${statoff} \
-    ${novelSS} \
-    ${allowClipping}
+    ${anchorLength_opt} \
+    --tstat ${params.tstat} \
+    ${cstat_opt} \
+    ${statoff_opt} ${paired_stats_opt} \
+    ${novelSS_opt} \
+    ${mil_opt} ${mel_opt}
+
   """
 
 
