@@ -46,7 +46,7 @@ workflow {
 
     STRINGTIE_A(bams_ch_raw, "annotated", file(params.gtf))
     PREPDE_A(STRINGTIE_A.out.dgeGtf.collect(), "annotated")
-    STRINGTIEMERGE(STRINGTIE_A.out.gtf.collect())
+    // STRINGTIEMERGE(STRINGTIE_A.out.gtf.collect())
 
     if (params.rmats_pairs) {
       mergedGtf_ch | view
@@ -75,7 +75,7 @@ workflow {
   PREPDE_A(STRINGTIE_A.out.dgeGtf.collect(), "annotated")
   // PREPDE.out.sampleLst | view
   // STRINGTIE MERGE
-  STRINGTIEMERGE(STRINGTIE_A.out.gtf.collect())
+  // STRINGTIEMERGE(STRINGTIE_A.out.gtf.collect())
   // STRINGTIEMERGE.out.mergedGtf | view
   // rMATS
 

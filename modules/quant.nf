@@ -11,11 +11,13 @@ process STRINGTIE {
   output:
     path "${name}.${annonovel}.gtf", emit: gtf
     path "${name}.${annonovel}_for_DGE.gtf", emit: dgeGtf
+    path "${name}.${annonovel}.gene_abund.tab", emit: geneAbund
 
   script:
   rf = params.stranded ? params.stranded == "first-strand" ? "--rf" : "--fr" : ""
   """
-  stringtie.sh ${name} ${bam} ${ref_gtf} ${task.cpus} "${rf}" ${annonovel}
+  stringtie ${bam} -G ${ref_gtf} -o ${name}.${annonovel}.gtf ${rf} -a 8 -p ${task.cpus}
+  stringtie ${bam} -G ${ref_gtf} -o ${name}.${annonovel}_for_DGE.gtf ${rf} -a 8 -p ${task.cpus} -e -A ${name}.${annonovel}.gene_abund.tab
   """
 }
 
