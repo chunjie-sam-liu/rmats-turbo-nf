@@ -19,7 +19,6 @@ endsType=${11}
 bamSortRAM=${12}
 saveUnmappedReads=${13}
 
-
 STAR \
   --genomeDir ${starIndex} \
   --readFilesIn ${reads} \
@@ -28,7 +27,6 @@ STAR \
   --runThreadN ${threads} \
   --readFilesCommand zcat \
   --sjdbGTFfile ${gtf} \
-  --sjdbOverhang ${overhang} \
   --alignSJDBoverhangMin ${sjdbOverhangMin} \
   --alignSJoverhangMin ${sjOverhangMin} \
   --outFilterScoreMinOverLread ${filterScore} \
@@ -48,15 +46,16 @@ STAR \
   --quantMode GeneCounts \
   --outWigType None \
   ${bamSortRAM}
-  # --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
-  # --outSAMstrandField intronMotif
+# --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
+# --outSAMstrandField intronMotif
+# --sjdbOverhang ${overhang} \
 
 samtools sort -@ ${threads} -o ${name}.Aligned.sortedByCoord.out.bam ${name}.Aligned.out.bam
 rm ${name}.Aligned.out.bam
 samtools index -@ ${threads} ${name}.Aligned.sortedByCoord.out.bam
 # bamCoverage -b ${name}.Aligned.sortedByCoord.out.bam -o ${name}.bw
 
-  # --outSAMtype BAM SortedByCoordinate \
+# --outSAMtype BAM SortedByCoordinate \
 # samtools view -h ${name}.Aligned.sortedByCoord.out.bam \
 #   | gawk -v q=${q} -f /usr/local/bin/tagXSstrandedData.awk \
 #   | samtools view -bS - > Aligned.XS.bam \
