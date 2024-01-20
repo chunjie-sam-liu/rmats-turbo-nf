@@ -16,7 +16,32 @@ ENV MAMBA_USER_GID=$MAMBA_USER_GID
 
 USER root
 
-RUN apt-get update && apt-get install -y build-essential cmake zlib1g-dev libhdf5-dev wget git
+RUN apt-get update \
+  && apt-get install -y \
+  ca-certificates \
+  build-essential \
+  zlib1g-dev \
+  libhdf5-dev \
+  wget \
+  git  \
+  cmake \
+  curl \
+  cython \
+  g++ \
+  gfortran \
+  libblas-dev \
+  libgsl-dev \
+  liblapack-dev \
+  make \
+  python-dev \
+  python-numpy \
+  python-pip \
+  r-base \
+  r-cran-nloptr \
+  zlib1g-dev \
+  libxml-libxml-perl \
+  libcurl4-openssl-dev \
+  libxml2-dev
 
 RUN pip install deeptools==3.2.0 \
   && pip install rmats2sashimiplot \
