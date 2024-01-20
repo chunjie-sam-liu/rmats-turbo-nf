@@ -16,8 +16,8 @@ sjOverhangMin=$8
 filterScore=$9
 mismatch=${10}
 endsType=${11}
-saveUnmappedReads=${12}
-
+bamSortRAM=${12}
+saveUnmappedReads=${13}
 
 STAR \
   --genomeDir ${starIndex} \
@@ -27,7 +27,6 @@ STAR \
   --runThreadN ${threads} \
   --readFilesCommand zcat \
   --sjdbGTFfile ${gtf} \
-  --sjdbOverhang ${overhang} \
   --alignSJDBoverhangMin ${sjdbOverhangMin} \
   --alignSJoverhangMin ${sjOverhangMin} \
   --outFilterScoreMinOverLread ${filterScore} \
@@ -37,7 +36,7 @@ STAR \
   --alignMatesGapMax 1000000 \
   --outSAMunmapped Within \
   --outSAMattributes NH HI AS NM MD XS \
-  --outSAMtype BAM SortedByCoordinate \
+  --outSAMtype BAM Unsorted \
   --outBAMsortingThreadN ${threads} \
   --outFilterType BySJout \
   --twopassMode Basic \
@@ -45,13 +44,18 @@ STAR \
   --alignIntronMax 1000000 \
   ${saveUnmappedReads} \
   --quantMode GeneCounts \
-  --outWigType None
-  # --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
-  # --outSAMstrandField intronMotif
+  --outWigType None \
+  ${bamSortRAM}
+# --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
+# --outSAMstrandField intronMotif
+# --sjdbOverhang ${overhang} \
 
-samtools index ${name}.Aligned.sortedByCoord.out.bam
+samtools sort -@ ${threads} -o ${name}.Aligned.sortedByCoord.out.bam ${name}.Aligned.out.bam
+rm ${name}.Aligned.out.bam
+samtools index -@ ${threads} ${name}.Aligned.sortedByCoord.out.bam
 # bamCoverage -b ${name}.Aligned.sortedByCoord.out.bam -o ${name}.bw
 
+# --outSAMtype BAM SortedByCoordinate \
 # samtools view -h ${name}.Aligned.sortedByCoord.out.bam \
 #   | gawk -v q=${q} -f /usr/local/bin/tagXSstrandedData.awk \
 #   | samtools view -bS - > Aligned.XS.bam \

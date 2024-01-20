@@ -11,6 +11,7 @@ bam=$2
 gtf=$3
 threads=$4
 rf=$5
+annonovel=$6
 
-stringtie $bam -G ${gtf} -o ${name}.gtf $rf -a 8 -p ${threads}
-stringtie $bam -G ${gtf} -o ${name}_for_DGE.gtf $rf -a 8 -e -p ${threads}
+stringtie $bam -G ${gtf} -o ${name}.${annonovel}.gtf $rf -a 8 -p ${threads}
+stringtie $bam -G ${gtf} -o ${name}.${annonovel}_for_DGE.gtf $rf -a 8 -e -p ${threads}

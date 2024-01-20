@@ -1,0 +1,2 @@
+FROM continuumio/miniconda3:latest
+LABEL maintainer="Chun-Jie Liu <chunjie.sam.liu@gmail.com>"

@@ -9,4 +9,4 @@ sraID=$1
 echo "${sraID}-JC" > ${sraID}_1.fastq.gz
 echo "${sraID}-CJ" > ${sraID}_2.fastq.gz
 
-echo `fasterq-dump --version` > faster.txt
+# echo `fasterq-dump --version` > faster.txt

@@ -10,8 +10,6 @@ ngcCMD=${2}
 
 fasterq-dump \
   ${ngcCMD} \
-  --bufsize 1G \
-  --curcache 1G \
   --mem 1G \
   --threads 5 \
   --split-3 ${sraFile}
