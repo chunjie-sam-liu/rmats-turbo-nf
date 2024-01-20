@@ -18,6 +18,31 @@ USER root
 
 RUN apt-get update && apt-get install -y build-essential cmake zlib1g-dev libhdf5-dev wget git
 
+RUN pip install deeptools==3.2.0 \
+  && pip install rmats2sashimiplot \
+  && mkdir /rmats_build \
+  && cd /rmats_build \
+  && git clone https://github.com/Xinglab/rmats-turbo.git \
+  && cd rmats-turbo \
+  && echo '' > setup_environment.sh \
+  && ./build_rmats \
+  && mkdir /rmats \
+  && cd /rmats \
+  && cp /rmats_build/rmats-turbo/rmats.py ./ \
+  && cp /rmats_build/rmats-turbo/cp_with_prefix.py ./ \
+  && cp /rmats_build/rmats-turbo/*.so ./ \
+  && mkdir rMATS_C \
+  && cp /rmats_build/rmats-turbo/rMATS_C/rMATSexe ./rMATS_C \
+  && mkdir rMATS_P \
+  && cp /rmats_build/rmats-turbo/rMATS_P/*.py ./rMATS_P \
+  && mkdir rMATS_R \
+  && cp /rmats_build/rmats-turbo/rMATS_R/*.R ./rMATS_R \
+  # Remove build dir
+  # && rm -rf /rmats_build \
+  && chmod 777 /rmats/rmats.py \
+  && echo 'export PATH=/rmats/:${PATH}' >> /etc/bash.bashrc \
+  && cp -r /rmats/* /usr/local/bin
+
 RUN git clone https://github.com/pachterlab/kallisto.git \
   && cd kallisto \
   && git checkout v0.50.0  \
@@ -27,6 +52,6 @@ RUN git clone https://github.com/pachterlab/kallisto.git \
   && make \
   && make install
 
-ENV PATH /opt/conda/bin/:$PATH
+ENV PATH /rmats/:/opt/conda/bin/:$PATH
 
 USER $MAMBA_USER
