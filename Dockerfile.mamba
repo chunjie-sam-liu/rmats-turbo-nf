@@ -25,16 +25,12 @@ RUN apt-get update \
   git  \
   cmake \
   curl \
-  cython \
   g++ \
   gfortran \
   libblas-dev \
   libgsl-dev \
   liblapack-dev \
   make \
-  python-dev \
-  python-numpy \
-  python-pip \
   r-base \
   r-cran-nloptr \
   zlib1g-dev \
@@ -42,8 +38,13 @@ RUN apt-get update \
   libcurl4-openssl-dev \
   libxml2-dev
 
+RUN micromamba install -y -n base -f /tmp/env.yaml && \
+  micromamba clean --all --yes
+
+
 RUN pip install deeptools==3.2.0 \
   && pip install rmats2sashimiplot \
+  && pip install cpython \
   && mkdir /rmats_build \
   && cd /rmats_build \
   && git clone https://github.com/Xinglab/rmats-turbo.git \
@@ -76,8 +77,6 @@ RUN git clone https://github.com/pachterlab/kallisto.git \
   && make \
   && make install
 
-RUN micromamba install -y -n base -f /tmp/env.yaml && \
-  micromamba clean --all --yes
 
 ENV PATH /rmats/:/opt/conda/bin/:$PATH
 
