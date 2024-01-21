@@ -81,3 +81,5 @@ ENV PATH /sratoolkit/bin/:/rmats/:/opt/conda/bin/:$PATH
 
 USER $MAMBA_USER
 WORKDIR /rmats
+ENTRYPOINT []
+CMD []
