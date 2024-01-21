@@ -63,9 +63,8 @@ RUN pip install deeptools==3.2.0 \
   && mkdir rMATS_R \
   && cp /rmats_build/rmats-turbo/rMATS_R/*.R ./rMATS_R \
   # Remove build dir
-  # && rm -rf /rmats_build \
+  && rm -rf /rmats_build \
   && chmod 777 /rmats/rmats.py \
-  && echo 'export PATH=/rmats/:${PATH}' >> /etc/bash.bashrc \
   && cp -r /rmats/* /usr/local/bin
 
 RUN git clone https://github.com/pachterlab/kallisto.git \
