@@ -5,7 +5,7 @@ process KALLISTOBAM {
 
   input:
     tuple val(name), file(bam), file(bamIndex)
-    file(ref_gtf_kallisto)
+    file(kallistoIndex)
   output:
     path "${name}_kallisto/${name}_abundance.tsv", emit: abundance
 
@@ -18,7 +18,7 @@ process KALLISTOBAM {
     -0 /dev/null \
     -s /dev/null \
     -n ${name}.sorted.bam
-  kallisto quant -i ${ref_gtf_kallisto} \
+  kallisto quant -i ${kallistoIndex} \
     -t ${task.cpus} \
     -o ${name}_kallisto \
     ${name}_1.fastq.gz ${name}_2.fastq.gz
