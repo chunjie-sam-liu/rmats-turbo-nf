@@ -10,7 +10,7 @@ include { STAR } from "./modules/bam"
 // include { STRINGTIE; PREPDE; STRINGTIEMERGE } from "./modules/quant"
 include { STRINGTIE as STRINGTIE_A; STRINGTIE as STRINGTIE_N; PREPDE as PREPDE_A; PREPDE as PREPDE_N; STRINGTIEMERGE } from "./modules/quant"
 include { ASUNPAIRED } from "./modules/as"
-include { KALLISTOBAM } from "./modules/kallisto"
+include { KALLISTOBAM; KALLISTOFASTQ} from "./modules/kallisto"
 
 
 workflow {
@@ -64,15 +64,22 @@ workflow {
 
   } else {
   // raw quality control
-  QC(fastq_ch, "raw")
+  // QC(fastq_ch, "raw")
+
   // trim
   TRIM(fastq_ch)
+
   // TRIM.out.trimmedReads | view
   // trimmed quality control
-  QCT(TRIM.out.trimmedReads, "trimmed")
+  // QCT(TRIM.out.trimmedReads, "trimmed")
+
+  // Kallisto quantification
+  KALLISTOFASTQ(TRIM.out.trimmedReads, file(params.kallistoIndex))
+
   // STAR Mapping
   STAR(TRIM.out.trimmedReads)
   // STAR.out.indexedBam | view
+
   // StringTie Quantification
   // STRINGTIE_A(STAR.out.indexedBam, "annotated", file(params.gtf))
   // STRINGTIE.out.gtf | view
@@ -85,7 +92,7 @@ workflow {
   // rMATS
 
   // Kallisto quantification
-  KALLISTOBAM(STAR.out.indexedBam, file(params.kallistoIndex))
+  // KALLISTOBAM(STAR.out.indexedBam, file(params.kallistoIndex))
 
   // mergedGtf_ch = Channel.fromPath(params.gtf)
   //   .combine(STRINGTIEMERGE.out.mergedGtf)

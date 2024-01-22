@@ -32,11 +32,18 @@ process KALLISTOFASTQ {
   publishDir "${params.publishDir}/quant/kallisto", mode: "copy"
 
   input:
-    tuple val(name), file(fastq)
-    file(ref_gtf_kallisto)
+    tuple val(name), file(fastq), val(singleEnd)
+    file(kallistoIndex)
+  output:
+    path "${name}_kallisto/${name}_abundance.tsv", emit: abundance
 
   script:
   """
+  kallisto quant -i ${kallistoIndex} \
+    -t ${task.cpus} \
+    -o ${name}_kallisto \
+    ${fastq}
+  mv ${name}_kallisto/abundance.tsv ${name}_kallisto/${name}_abundance.tsv
 
   """
 }
