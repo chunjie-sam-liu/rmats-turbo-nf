@@ -1,0 +1,14 @@
+## auto-generated configuration file - DO NOT EDIT ##
+
+/LIBS/GUID = "b8266f06-b9ac-11ee-8790-0242ac110002"
+/config/default = "false"
+/libs/cloud/report_instance_identity = "true"
+/libs/vdb/quality = "ZR"
+/repository/user/ad/public/apps/file/volumes/flatAd = "."
+/repository/user/ad/public/apps/refseq/volumes/refseqAd = "."
+/repository/user/ad/public/apps/sra/volumes/sraAd = "."
+/repository/user/ad/public/apps/sraPileup/volumes/ad = "."
+/repository/user/ad/public/apps/sraRealign/volumes/ad = "."
+/repository/user/ad/public/apps/wgs/volumes/wgsAd = "."
+/repository/user/ad/public/root = "."
+/repository/user/default-path = "/home/liuc9/ncbi"
