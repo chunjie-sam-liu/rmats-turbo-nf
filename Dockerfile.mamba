@@ -65,7 +65,15 @@ RUN pip install deeptools==3.2.0 \
   # Remove build dir
   && rm -rf /rmats_build \
   && chmod 777 /rmats/rmats.py \
-  && cp -r /rmats/* /usr/local/bin
+  && cp -r /rmats/* /usr/local/bin \
+  # Build sratoolkit
+  && mkdir /sratoolkit_build \
+  && cd /sratoolkit_build \
+  && curl --output sratoolkit.tar.gz -L http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-ubuntu64.tar.gz \
+  && mkdir /sratoolkit \
+  && tar -zxvf /sratoolkit_build/sratoolkit.tar.gz -C /sratoolkit --strip-components=1 \
+  && rm -rf /sratoolkit_build \
+  && echo 'export PATH=/sratoolkit/bin/:${PATH}' >> /etc/bash.bashrc
 
 RUN git clone https://github.com/pachterlab/kallisto.git \
   && cd kallisto \
