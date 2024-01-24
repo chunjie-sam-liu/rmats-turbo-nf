@@ -18,10 +18,11 @@ slidingWindow=${7}
 [[ singleEnd == "true" ]] && out="${name}_trimmed.fastq.gz" || out="${name}_trimmed_R1.fastq.gz ${name}_unpaired_R1.fastq.gz ${name}_trimmed_R2.fastq.gz ${name}_unpaired_R2.fastq.gz"
 [[ singleEnd == "true" ]] && keepbothreads="" || keepbothreads=":2:true"
 fq=(${reads})
-[[ readLength == "false" ]] && readLength=`zcat ${fq} |head -2|tail -1|wc -L`
+[[ readLength == "false" ]] && readLength=$(zcat ${fq} | head -2 | tail -1 | wc -L)
 
 # trimmomatic \
-java -jar /trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar \
+# java -jar /trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar \
+trimmomatic \
   ${mode} \
   -threads 5 \
   -phred33 \
