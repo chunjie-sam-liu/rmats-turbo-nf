@@ -148,9 +148,27 @@ task rmats_prep {
 
   command {
     echo ${bam} > prep.txt
-    python /rmats/rmats.py --b1 prep.txt --gtf ${gtf} -t ${read_type_value} --readLength ${readLength} --nthread 1 --od ${out_dir} --tmp tmp_output_prep_${bam_id} --task prep --libType ${lib_type} ${variable_read_length_opt} ${anchorLength_opt} ${anchorLength} ${novelSS_opt} ${mil_opt} ${mil_val} ${mel_opt} ${mel_val} ${allow_clipping_opt}
+    python /rmats/rmats.py \
+      --b1 prep.txt \
+      --gtf ${gtf} \
+      -t ${read_type_value} \
+      --readLength ${readLength} \
+      --nthread 1 \
+      --od ${out_dir} \
+      --tmp tmp_output_prep_${bam_id} \
+      --task prep \
+      --libType ${lib_type} \
+      ${variable_read_length_opt} \
+      ${anchorLength_opt} ${anchorLength} \
+      ${novelSS_opt} \
+      ${mil_opt} ${mil_val} \
+      ${mel_opt} ${mel_val} \
+      ${allow_clipping_opt}
+
     mkdir outfd
+
     python /rmats/cp_with_prefix.py prep_${bam_id}_ outfd tmp_output_prep_${bam_id}/*.rmats
+
     cp tmp_output_prep_${bam_id}/*read_outcomes_by_bam.txt prep_${bam_id}_read_outcomes_by_bam.txt
   }
 

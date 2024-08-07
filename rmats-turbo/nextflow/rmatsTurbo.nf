@@ -2,29 +2,33 @@ nextflow.enable.dsl=2
 
 
 process rmats_prep {
-  tag "RMATS-PREP"
+  tag "rmats_prep"
   label "mid_memory"
   publishDir "${params.publishDir}/rmats-prep", mode: 'symlink'
 
   input:
-    tuple val(name), file(bam)
-    each file(gtf)
-  output:
-    path "*.rmats", emit: rmat
-    path "*_read_outcomes_by_bam.txt", emit: rob
+    tuple val(bam_name), file(bam)
+    file(gtf)
+    val(group)
+
+  // output:
+  //   path "*.rmats", emit: rmat
+  //   path "*_read_outcomes_by_bam.txt", emit: rob
 
   script:
-  read_type_value = params.singleEnd ? "single" : "paired"
-  variable_read_length_opt = params.variable_read_length ? "--variable-read-length" : ""
-  anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
-  novelSS_opt = params.novelSS ? "--novelSS" : ""
-  mil_opt = params.novelSS ? params.mil ? "--mil ${params.mil}" : "" : ""
-  mel_opt = params.novelSS ? params.mel ? "--mel ${params.mel}" : "" : ""
-  allow_clipping_opt = params.allow_clipping ? "--allow-clipping" : ""
+    bam_id = "${group}_${bam_name}"
+
+    read_type_value = params.is_single_end ? "single" : "paired"
+    variable_read_length_opt = params.variable_read_length ? "--variable-read-length" : ""
+    anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
+    novelSS_opt = params.novelSS ? "--novelSS" : ""
+    mil_opt = params.novelSS ? params.mil ? "--mil ${params.mil}" : "" : ""
+    mel_opt = params.novelSS ? params.mel ? "--mel ${params.mel}" : "" : ""
+    allow_clipping_opt = params.allow_clipping ? "--allow-clipping" : ""
+
 
   """
   echo ${bam} > prep.txt
-
   python /rmats/rmats.py \
     --b1 prep.txt \
     --gtf ${gtf} \
@@ -45,6 +49,7 @@ process rmats_prep {
     python /rmats/cp_with_prefix.py prep_${bam_id}_ outfd tmp_output_prep_${bam_id}/*.rmats
     cp tmp_output_prep_${bam_id}/*_read_outcomes_by_bam.txt outfd
   """
+
 }
 
 process rmats_post {
@@ -85,23 +90,25 @@ process rmats_post {
 
 workflow {
   // TURBOPREP(bams, gtfs)
-  bam_g1_ch = Channel.fromPath(params.bam_g1)
+  bam_g1_ch = Channel
+    .fromPath(params.bam_g1)
     .ifEmpty {exit 1, "No bam files found in ${params.bam_g1}"}
     .splitCsv(by:1, strip: true)
     .map {
       // bam name, bam file
-      val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))
+      row -> tuple(file(row[0].trim()).simpleName, file(row[0].trim()))
     }
   // print view the variable
   bam_g1_ch.view()
 
   // bam_g2 = Channel.fromPath(params.bam_g2)
-  bam_g2_ch = Channel.fromPath(params.bam_g2)
+  bam_g2_ch = Channel
+    .fromPath(params.bam_g2)
     .ifEmpty {exit 1, "No bam files found in ${params.bam_g2}"}
     .splitCsv(by:1, strip: true)
     .map {
       // bam name, bam file
-      val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))
+      row -> tuple(file(row[0].trim()).simpleName, file(row[0].trim()))
     }
 
   // print view the variable
@@ -113,6 +120,8 @@ workflow {
   // print view the variable
   gtf_ch.view()
 
+  // Start workflow
   // rmats_prep
-  rmats_prep(bam_g1_ch, gtf_ch)
+  rmats_prep(bam_g1_ch, gtf_ch, "g1")
+  // rmats_prep(bam_g1_ch, gtf_ch, "g2")
 }
