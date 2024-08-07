@@ -1,15 +1,5 @@
 nextflow.enable.dsl=2
 
-process sayHello {
-  output:
-    path 'output.txt'
-
-  script:
-
-  """
-  echo ${params.container} >> output.txt
-  """
-}
 
 process rmats_prep {
   tag "RMATS-PREP"
@@ -20,8 +10,8 @@ process rmats_prep {
     tuple val(name), file(bam)
     each file(gtf)
   output:
-    path "*.rmats", emit: out_rmats
-    path "*_read_outcomes_by_bam.txt", emit: read_outcome
+    path "*.rmats", emit: rmat
+    path "*_read_outcomes_by_bam.txt", emit: rob
 
   script:
   read_type_value = params.singleEnd ? "single" : "paired"
@@ -57,7 +47,31 @@ process rmats_prep {
 
   """
 }
-process rmats_post {}
+
+process rmats_post {
+  tag "RMATS-POST"
+  label "tera_memory"
+  publishDir "${params.publishDir}/rmats-post", mode: 'copy'
+
+  input:
+    file(bams)
+    file(rmats)
+    file(robs)
+    each file(gtf)
+  output:
+    path "post/*.txt"
+    path "b1.txt"
+
+  script:
+  anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
+  is_default_stats = (!params.paired_stats) && (!params.darts_model)
+  cstat_opt = is_default_stats ? "--cstat ${params.cstat}" : ""
+
+
+  """
+  cstat_opt = params.paired_stats ? "" : "--cstat ${params.cstat}"
+
+}
 
 workflow {
   sayHello()
