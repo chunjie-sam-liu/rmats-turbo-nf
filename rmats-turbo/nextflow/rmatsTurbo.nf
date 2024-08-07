@@ -44,7 +44,6 @@ process rmats_prep {
     mkdir outfd
     python /rmats/cp_with_prefix.py prep_${bam_id}_ outfd tmp_output_prep_${bam_id}/*.rmats
     cp tmp_output_prep_${bam_id}/*_read_outcomes_by_bam.txt outfd
-
   """
 }
 
@@ -85,5 +84,35 @@ process rmats_post {
 }
 
 workflow {
-  TURBOPREP(bams, gtfs)
+  // TURBOPREP(bams, gtfs)
+  bam_g1_ch = Channel.fromPath(params.bam_g1)
+    .ifEmpty {exit 1, "No bam files found in ${params.bam_g1}"}
+    .splitCsv(by:1, strip: true)
+    .map {
+      // bam name, bam file
+      val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))
+    }
+  // print view the variable
+  bam_g1_ch.view()
+
+  // bam_g2 = Channel.fromPath(params.bam_g2)
+  bam_g2_ch = Channel.fromPath(params.bam_g2)
+    .ifEmpty {exit 1, "No bam files found in ${params.bam_g2}"}
+    .splitCsv(by:1, strip: true)
+    .map {
+      // bam name, bam file
+      val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))
+    }
+
+  // print view the variable
+  bam_g2_ch.view()
+
+  gtf_ch = Channel.fromPath(params.gtf)
+    .ifEmpty {exit 1, "No gtf file found in ${params.gtf}"}
+
+  // print view the variable
+  gtf_ch.view()
+
+  // rmats_prep
+  rmats_prep(bam_g1_ch, gtf_ch)
 }
