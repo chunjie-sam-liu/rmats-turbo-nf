@@ -217,10 +217,32 @@ task rmats_post {
 
   command {
     mkdir fd_rmats
+
     for file in ${sep=" " rmats}; do fn=`basename $file`; sed 's/.*\///g' $file > fd_rmats/$fn; done
+
     echo ${sep="," bam_name_g1} > bam_g1.txt
     echo ${sep="," bam_name_g2} > bam_g2.txt
-    python /rmats/rmats.py --b1 bam_g1.txt --b2 bam_g2.txt --gtf ${gtf} --readLength ${readLength} --nthread ${nthread} --od ${out_dir} --tmp fd_rmats --task post ${anchorLength_opt} ${anchorLength} --tstat ${tstat} ${cstat_opt} ${cstat_val} ${statoff_opt} ${paired_stats_opt} ${darts_model_opt} ${darts_cutoff_opt} ${darts_cutoff_val} ${novelSS_opt} ${mil_opt} ${mil_val} ${mel_opt} ${mel_val} ${individual_counts_opt}
+
+    python /rmats/rmats.py \
+    --b1 bam_g1.txt \
+    --b2 bam_g2.txt \
+    --gtf ${gtf}
+    --readLength ${readLength} \
+    --nthread ${nthread} \
+    --od ${out_dir} \
+    --tmp fd_rmats \
+    --task post \
+    ${anchorLength_opt} ${anchorLength} \
+    --tstat ${tstat} \
+    ${cstat_opt} ${cstat_val} \
+    ${statoff_opt} \
+    ${paired_stats_opt} ${darts_model_opt} \
+    ${darts_cutoff_opt} ${darts_cutoff_val} \
+    ${novelSS_opt} \
+    ${mil_opt} ${mil_val} \
+    ${mel_opt} ${mel_val} \
+    ${individual_counts_opt}
+
     tar czf ${out_dir}.tar.gz ${out_dir}
   }
 

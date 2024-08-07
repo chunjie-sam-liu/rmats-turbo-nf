@@ -66,13 +66,24 @@ process rmats_post {
   anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
   is_default_stats = (!params.paired_stats) && (!params.darts_model)
   cstat_opt = is_default_stats ? "--cstat ${params.cstat}" : ""
+  statoff_opt = params.statoff ? "--statoff" : ""
+  paired_stats_opt = params.paired_stats ? "--paired-stats" : ""
+  darts_model_opt = params.darts_model ? "--darts-model" : ""
+  darts_cutoff_opt = params.darts_model ? "--darts-cutoff ${params.darts_cutoff}" : ""
+  novelSS_opt = params.novelSS ? "--novelSS" : ""
+  mil_opt = params.novelSS ? params.mil ? "--mil ${params.mil}" : "" : ""
+  mel_opt = params.novelSS ? params.mel ? "--mel ${params.mel}" : "" : ""
+  individual_counts_opt = params.individual_counts ? "--individual-counts" : ""
+
+  """
+  mkdir fd_rmats
 
 
   """
-  cstat_opt = params.paired_stats ? "" : "--cstat ${params.cstat}"
+
 
 }
 
 workflow {
-  sayHello()
+  TURBOPREP(bams, gtfs)
 }
