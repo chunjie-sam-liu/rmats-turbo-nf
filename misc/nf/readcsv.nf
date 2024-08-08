@@ -29,20 +29,21 @@ workflow {
       .ifEmpty {exit 1, "Cant find reads file: ${params.reads}"}
       .splitCsv(by:1, strip: true)
       .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
-      FASTQ(sra_ch)
+      // FASTQ(sra_ch)
 
-      fastq_ch = FASTQ.out.rawReads
+      // fastq_ch = FASTQ.out.rawReads
   }
-  if (params.fastqfiles) {
-      fastq_ch = Channel
-        .fromFilePairs(params.fastqfiles)
-        .map {acc, fqs -> tuple(acc, fqs, params.singleEnd)}
-  }
+  // if (params.fastqfiles) {
+  //     fastq_ch = Channel
+  //       .fromFilePairs(params.fastqfiles)
+  //       .map {acc, fqs -> tuple(acc, fqs, params.singleEnd)}
+  // }
+  sra_ch.view()
 
-  fastq_ch.ifEmpty {
-    exit 1, "No fastq files found"
-  }
-  fastq_ch | view
+  // fastq_ch.ifEmpty {
+  //   exit 1, "No fastq files found"
+  // }
+  // fastq_ch | view
 
 
 
