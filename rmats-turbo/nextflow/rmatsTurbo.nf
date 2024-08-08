@@ -11,9 +11,10 @@ process rmats_prep_single {
     file(gtf)
     val(group)
 
-  // output:
-  //   path "*.rmats", emit: rmat
-  //   path "*_read_outcomes_by_bam.txt", emit: rob
+  output:
+    path "outfd/*.rmats", emit: rmat
+    path "*_read_outcomes_by_bam.txt", emit: rob
+    path "${bam_name}", emit: bam_name
 
   script:
     bam_id = "${group}_${bam_name}"
@@ -174,5 +175,5 @@ workflow {
   // Start workflow
   // rmats_prep
   rmats_prep_single(bam_g1_ch, gtf_ch, "g1")
-  rmats_prep_paired(bam_g2_ch, gtf_ch, "g2")
+  // rmats_prep_paired(bam_g2_ch, gtf_ch, "g2")
 }
