@@ -4,7 +4,7 @@ nextflow.enable.dsl=2
 process rmats_prep_g1 {
   tag "rmats_prep_g1"
   label "mid_memory"
-  publishDir "${params.publishDir}/rmats-prep-g1", mode: 'symlink'
+  publishDir path: "${params.publishDir}/read_outcomes", mode: 'copy', pattern: "prep_*_read_outcomes_by_bam.txt"
 
   input:
     tuple val(bam_name), file(bam)
@@ -60,7 +60,7 @@ process rmats_prep_g1 {
 process rmats_prep_g2 {
   tag "rmats_prep_g2"
   label "mid_memory"
-  publishDir "${params.publishDir}/rmats-prep-g2", mode: 'symlink'
+  publishDir path: "${params.publishDir}/read_outcomes", mode: 'copy', pattern: "prep_*_read_outcomes_by_bam.txt"
 
   input:
     tuple val(bam_name), file(bam)
@@ -115,14 +115,16 @@ process rmats_prep_g2 {
 process rmats_post {
   tag "rmats_post"
   label "tera_memory"
-  publishDir "${params.publishDir}/rmats-post", mode: 'copy'
+  publishDir "${params.publishDir}", mode: 'copy'
 
   input:
-    file(bam_name_g1)
-    file(bam_name_g2)
+    file(bams_g1)
+    file(bams_g2)
     file(rmats_g1)
     file(rmats_g2)
     each file(gtf)
+  output:
+    path "${params.out_dir}.tar.gz"
 
   script:
   anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
@@ -136,11 +138,43 @@ process rmats_post {
   mil_opt = params.novelSS ? params.mil ? "--mil ${params.mil}" : "" : ""
   mel_opt = params.novelSS ? params.mel ? "--mel ${params.mel}" : "" : ""
   individual_counts_opt = params.individual_counts ? "--individual-counts" : ""
-  rmats1 = rmats
 
-  bam_name_g1.view()
+  rmats1 = rmats_g1.flatten()
+  rmats2 = rmats_g2.flatten()
+  rmats = rmats1 + rmats2
+
   """
+  mkdir fd_rmats
 
+  for file in ${rmats.join(' ')}
+  do
+    fn=\$(basename \$file)
+    sed 's/.*\\///g' \$file > fd_rmats/\$fn
+  done
+
+  echo ${bams_g1.join(',')} > bam_g1.txt
+  echo ${bams_g2.join(',')} > bam_g2.txt
+
+  python /rmats/rmats.py \
+    --b1 bam_g1.txt \
+    --b2 bam_g2.txt \
+    --gtf ${gtf} \
+    --readLength ${params.readLength} \
+    --nthread ${params.nthread} \
+    --od ${params.out_dir} \
+    --tmp fd_rmats \
+    --task post \
+    ${anchorLength_opt} \
+    --tstat ${params.tstat} \
+    ${cstat_opt} \
+    ${statoff_opt} \
+    ${paired_stats_opt} \
+    ${darts_model_opt} \
+    ${novelSS_opt} \
+    ${mil_opt} \
+    ${mel_opt}
+
+    tar czf ${params.out_dir}.tar.gz ${params.out_dir}
 
   """
 
@@ -158,7 +192,7 @@ workflow {
       row -> tuple(file(row[0].trim()).simpleName, file(row[0].trim()))
     }
   // print view the variable
-  bam_g1_ch.view()
+  // bam_g1_ch.view()
 
   // bam_g2 = Channel.fromPath(params.bam_g2)
   bam_g2_ch = Channel
@@ -171,13 +205,13 @@ workflow {
     }
 
   // print view the variable
-  bam_g2_ch.view()
+  // bam_g2_ch.view()
 
   gtf_ch = Channel.fromPath(params.gtf)
     .ifEmpty {exit 1, "No gtf file found in ${params.gtf}"}
 
   // print view the variable
-  gtf_ch.view()
+  // gtf_ch.view()
 
   // Start workflow
   // rmats_prep
@@ -185,11 +219,12 @@ workflow {
   rmats_prep_g2(bam_g2_ch, gtf_ch, "g2")
 
   // rmats_prep_g1.out.rmat.view()
-  rmats_prep_g1.out.rmat.collect().view()
+  // rmats_prep_g1.out.rmat.collect().view()
+
   // rmats_post
   rmats_post(
-    rmats_prep_g1.out.bam_name.collect(),
-    rmats_prep_g2.out.bam_name.collect(),
+    bam_g1_ch.map {name, bam -> bam}.collect(),
+    bam_g2_ch.map {name, bam -> bam}.collect(),
     rmats_prep_g1.out.rmat.collect(),
     rmats_prep_g2.out.rmat.collect(),
     gtf_ch
