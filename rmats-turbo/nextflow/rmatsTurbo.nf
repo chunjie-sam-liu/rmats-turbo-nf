@@ -118,13 +118,11 @@ process rmats_post {
   publishDir "${params.publishDir}/rmats-post", mode: 'copy'
 
   input:
-    file(bams)
-    file(rmats)
-    file(robs)
+    file(bam_name_g1)
+    file(bam_name_g2)
+    file(rmats_g1)
+    file(rmats_g2)
     each file(gtf)
-  output:
-    path "post/*.txt"
-    path "b1.txt"
 
   script:
   anchorLength_opt = params.anchorLength ? "--anchorLength ${params.anchorLength}" : ""
@@ -138,9 +136,10 @@ process rmats_post {
   mil_opt = params.novelSS ? params.mil ? "--mil ${params.mil}" : "" : ""
   mel_opt = params.novelSS ? params.mel ? "--mel ${params.mel}" : "" : ""
   individual_counts_opt = params.individual_counts ? "--individual-counts" : ""
+  rmats1 = rmats
 
+  bam_name_g1.view()
   """
-  mkdir fd_rmats
 
 
   """
@@ -184,4 +183,15 @@ workflow {
   // rmats_prep
   rmats_prep_g1(bam_g1_ch, gtf_ch, "g1")
   rmats_prep_g2(bam_g2_ch, gtf_ch, "g2")
+
+  // rmats_prep_g1.out.rmat.view()
+  rmats_prep_g1.out.rmat.collect().view()
+  // rmats_post
+  rmats_post(
+    rmats_prep_g1.out.bam_name.collect(),
+    rmats_prep_g2.out.bam_name.collect(),
+    rmats_prep_g1.out.rmat.collect(),
+    rmats_prep_g2.out.rmat.collect(),
+    gtf_ch
+  )
 }
