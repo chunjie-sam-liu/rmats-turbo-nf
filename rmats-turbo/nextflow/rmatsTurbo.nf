@@ -168,6 +168,7 @@ process rmats_post {
     ${statoff_opt} \
     ${paired_stats_opt} \
     ${darts_model_opt} \
+    ${darts_cutoff_opt} \
     ${novelSS_opt} \
     ${mil_opt} \
     ${mel_opt} \
