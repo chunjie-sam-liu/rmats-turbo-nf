@@ -23,21 +23,23 @@ process FASTQ {
 }
 
 workflow {
+
+  /*
   if (params.sras) {
     sra_ch = Channel
       .fromPath(params.sras)
       .ifEmpty {exit 1, "Cant find reads file: ${params.reads}"}
       .splitCsv(by:1, strip: true)
       .map{val -> tuple(file(val[0].trim()).simpleName, file(val[0].trim()))}
-      // FASTQ(sra_ch)
-
-      // fastq_ch = FASTQ.out.rawReads
   }
-  // if (params.fastqfiles) {
-  //     fastq_ch = Channel
-  //       .fromFilePairs(params.fastqfiles)
-  //       .map {acc, fqs -> tuple(acc, fqs, params.singleEnd)}
-  // }
+
+  */
+  if (params.sras) {
+    sra_ch = Channel
+      .fromPath(params.sras)
+      .ifEmpty {exit 1, "Cant find reads file: ${params.reads}"}
+      .map{bam -> tuple(bam.simpleName, bam)}
+  }
   sra_ch.view()
 
   // fastq_ch.ifEmpty {

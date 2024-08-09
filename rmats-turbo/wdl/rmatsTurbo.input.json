@@ -1,0 +1,33 @@
+{
+  "rMATS_turbo.bam_g1": "Array[File]",
+  "rMATS_turbo.bam_g2": "Array[File]",
+  "rMATS_turbo.gtf": "File",
+
+  "rMATS_turbo.is_single_end": "Boolean (optional, default = false)",
+  "rMATS_turbo.readLength": "Int",
+  "rMATS_turbo.nthread": "Int (optional, default = 1)",
+
+  "rMATS_turbo.out_dir": "String",
+  "rMATS_turbo.lib_type": "String (optional, default = \"fr-unstranded\")",
+  "rMATS_turbo.variable_read_length": "Boolean (optional, default = false)",
+  "rMATS_turbo.anchorLength": "Int? (optional)",
+
+  "rMATS_turbo.tstat": "Int (optional, default = 1)",
+  "rMATS_turbo.cstat": "String (optional, default = \"0.0001\")",
+  "rMATS_turbo.statoff": "Boolean (optional, default = false)",
+  "rMATS_turbo.paired_stats": "Boolean (optional, default = false)",
+  "rMATS_turbo.darts_model": "Boolean (optional, default = false)",
+  "rMATS_turbo.darts_cutoff": "String (optional, default = \"0.05\")",
+
+  "rMATS_turbo.novelSS": "Boolean (optional, default = false)",
+  "rMATS_turbo.mil": "Int (optional, default = 50)",
+  "rMATS_turbo.mel": "Int (optional, default = 500)",
+  "rMATS_turbo.allow_clipping": "Boolean (optional, default = false)",
+  "rMATS_turbo.individual_counts": "Boolean (optional, default = false)",
+
+  "rMATS_turbo.machine_mem_gb": "Int (optional, default = 4)",
+  "rMATS_turbo.disk_space_gb": "Int (optional, default = 20)",
+  "rMATS_turbo.use_ssd": "Boolean (optional, default = false)",
+
+  "rMATS_turbo.rmats_version": "String (optional, default = \"v4.3.0\")"
+}
